@@ -1,7 +1,11 @@
 
+#ifndef BASICDATASTRUCT_H
+
+#define  BASICDATASTRUCT_H
 typedef struct a_node_t {
-    const void * value ;
     struct a_node_t * next ;
+    const void * value ;
+    size_t valuelength;
 } a_node_t ;
 
 typedef struct queue_t {
@@ -23,8 +27,10 @@ typedef struct hashtable_t {
 
 
 typedef struct hash_entry_t {
-    void * value;
     struct hash_entry_t * next ;
+    void * value;
     size_t keylength;
     void * key;
 } hash_entry_t;
+
+#endif  // BASICDATASTRUCT_H 

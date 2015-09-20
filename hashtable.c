@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
+
 #include "basicdatastruct.h"
 
 // The hash function
@@ -49,8 +51,25 @@ int ht_insert(hashtable_t * ht, const void * key,
     if (ht == NULL)  { return -1; }
 
     int bucket = adler32(key, keylength) % (ht->numbuckets);
+
+
+    hash_entry_t * ht_entry = malloc( sizeof(hash_entry_t )) ;
+
+    if (ht_entry == NULL )  { return -1 ; }
     
-    ht->table[bucket] = value;
+    void * keycpy = malloc( keylength) ;
+    if ( keycpy  == NULL )  { return -1; }
+    
+    if (memcpy(keycpy, key, keylength) == NULL)  {
+        return -2 ;
+    }
+
+    ht_entry->value = value;
+    ht_entry->next = NULL;
+    ht_entry->keylength = keylength;
+    ht_entry->key = keycpy;
+    ht->table[bucket] =  ht_entry;
+
     return 0;
 }
 
