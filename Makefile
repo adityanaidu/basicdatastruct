@@ -11,8 +11,8 @@ $(LNAME) : $(OBJ)  ;  ar rcs $@ $^
 
 clean: ; rm -f $(OBJ) $(LNAME)
 
-hashtable: hashtable.c $(DEPS) ; gcc -o hashtable $<  $(CFLAGS)
+hashtable: hashtable.c $(DEPS) ; gcc -o $@ $< $(CFLAGS)
 
-linkedlink: linkedlist.c $(DEPS) ; gcc -o linkedlist $<  $(CFLAGS)
+linkedlist: linkedlist.c $(DEPS) ; gcc -o linkedlist $<  $(CFLAGS)
 
 .PHONY: clean

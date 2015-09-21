@@ -9,7 +9,7 @@
 
 linkedlist_t * create_linkedlist()  {
     
-    linkedlist_t * ll = malloc( sizeof(linkedlist_t));
+    linkedlist_t * ll = calloc(1, sizeof(linkedlist_t));
 
     if (ll == NULL)  {
         printf("Unable to malloc for linkedlist\n");
@@ -46,7 +46,7 @@ int ll_insert(linkedlist_t * ll, const void * value, size_t valuelength)  {
 
    if (ll == NULL)  { return -1 ; }
 
-    a_node_t * node = malloc(sizeof(a_node_t));
+    a_node_t * node = calloc(1, sizeof(a_node_t));
 
     if (node == NULL)   { return -1;}
 

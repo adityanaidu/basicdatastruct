@@ -25,7 +25,7 @@ uint32_t adler32(const void *buf, size_t buflength)  {
 hashtable_t * create_hashtable(uint32_t num_buckets)  {
     
     hashtable_t * ht = NULL;
-    ht = malloc( sizeof(hashtable_t));
+    ht = calloc(1, sizeof(hashtable_t));
 
     if (ht == NULL)  {
         printf("Unable to malloc\n");
@@ -33,8 +33,7 @@ hashtable_t * create_hashtable(uint32_t num_buckets)  {
     }
     
     ht->numbuckets = num_buckets;
-    const void ** table = NULL;
-    table = malloc( num_buckets * sizeof(void *));
+    hash_entry_t ** table =  (calloc( num_buckets, sizeof(hash_entry_t *)));
     
     if (table == NULL)  {
         printf("Unable to allocate table\n");
@@ -46,44 +45,61 @@ hashtable_t * create_hashtable(uint32_t num_buckets)  {
 }
 
 int ht_insert(hashtable_t * ht, const void * key, 
-               size_t keylength, const void * value) {
+               size_t keylength, const void * value, size_t valuelength) {
     
     if (ht == NULL)  { return -1; }
 
     int bucket = adler32(key, keylength) % (ht->numbuckets);
+    printf("Bucket selected: %d\n", bucket);
 
-
-    hash_entry_t * ht_entry = malloc( sizeof(hash_entry_t )) ;
-
-    if (ht_entry == NULL )  { return -1 ; }
-    
-    void * keycpy = malloc( keylength) ;
-    if ( keycpy  == NULL )  { return -1; }
+    void * keycpy = calloc(1, keylength) ;
+    if ( keycpy  == NULL )  { 
+        printf("Unable to malloc keycpy\n");
+        return -1 ;
+    }
     
     if (memcpy(keycpy, key, keylength) == NULL)  {
         return -2 ;
     }
 
+    hash_entry_t * ht_entry = calloc(1, sizeof(hash_entry_t )) ;
+
+    if (ht_entry == NULL )  { 
+        printf("Unable to malloc hash_entry_t\n"); 
+        return -1 ;
+    }
+    
     ht_entry->value = value;
     ht_entry->next = NULL;
     ht_entry->keylength = keylength;
     ht_entry->key = keycpy;
-    ht->table[bucket] =  ht_entry;
-
+    
+    if (ht->table[bucket] == NULL)  {
+        printf("bucket NULL. Init here\n");
+        ht->table[bucket] = ht_entry;
+    } 
+        
     return 0;
 }
 
 const void * ht_retrieve(hashtable_t *ht, const void * key, size_t keylength ) {
     if (ht == NULL)  { return NULL; }
-
+    
     int bucket = adler32(key, keylength) % (ht->numbuckets) ;
-    return ht->table[bucket];
+    printf("retrieve bucket: %d\n", bucket);
+
+    if (ht->table[bucket] != NULL) {
+        printf("keylength %d\n", (int) (ht->table[bucket])->keylength); 
+        return (ht->table[bucket])->value; 
+    } else {
+        return NULL;
+    }
 }
 
 int main(void)  {
     
     hashtable_t * ht = NULL;
-    ht = create_hashtable(15);
+    ht = create_hashtable(32);
 
     if (ht == NULL)  {
         return 1; 
@@ -91,11 +107,11 @@ int main(void)  {
 
     int * int1 = malloc(sizeof(int));
     *int1 = 11;
-    ht_insert(ht, int1, sizeof(int), int1 );
+    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
     *int1 = 12;
-    ht_insert(ht, int1, sizeof(int), int1 );
+    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
     *int1 = 13;
-    ht_insert(ht, int1, sizeof(int), int1 );
+    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
     
     *int1 = 11;
     printf("Returned for 11: %d\n", * (int *) ht_retrieve(ht, int1, sizeof(int)));
