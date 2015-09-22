@@ -77,8 +77,19 @@ int ht_insert(hashtable_t * ht, const void * key,
     if (ht->table[bucket] == NULL)  {
         printf("bucket NULL. Init here\n");
         ht->table[bucket] = ht_entry;
-    } 
+    } else {
         
+        hash_entry_t * he = ht->table[bucket] ; 
+        
+        int idx = 0;
+        while ( he->next != NULL)  {
+            printf("iter number = %d\n", idx);    
+            he = he->next;
+            idx++ ;
+        }
+
+        he->next = ht_entry;
+    }
     return 0;
 }
 
@@ -107,6 +118,8 @@ int main(void)  {
 
     int * int1 = malloc(sizeof(int));
     *int1 = 11;
+    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
+    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
     ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
     *int1 = 12;
     ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
