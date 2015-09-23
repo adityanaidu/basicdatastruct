@@ -16,9 +16,17 @@ linkedlist_t * create_linkedlist()  {
         return NULL;
     } else {
         ll->next = NULL;
+        ll->size = 0;
         return ll;
     }
 
+}
+
+uint32_t linkedlist_size(linkedlist_t * ll)  {
+        
+    if (ll == NULL) { return 0; }
+
+    return ll->size;
 }
 
 int destroy_linkedlist( linkedlist_t *ll) {
@@ -56,6 +64,7 @@ int ll_insert(linkedlist_t * ll, const void * value, size_t valuelength)  {
     
     if (ll->next == NULL )  {
         ll->next = node ;
+        ll->size++ ;
         return EXIT_SUCCESS ;
     }
 
@@ -64,6 +73,7 @@ int ll_insert(linkedlist_t * ll, const void * value, size_t valuelength)  {
     while ( true )  {
        if ( current->next == NULL ) {
            current->next = node ;
+           ll->size++ ;
            return EXIT_SUCCESS;
        }
        current = current->next ;
@@ -88,6 +98,7 @@ int ll_delete(linkedlist_t * ll, const void * value, size_t valuelength) {
             // delete this element
             prev->next = current->next;
             free(current);
+            ll->size-- ;
             return EXIT_SUCCESS;
         }
 

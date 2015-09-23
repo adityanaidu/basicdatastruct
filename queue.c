@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
+
 #include "basicdatastruct.h"
 
 queue_t * create_queue() {
@@ -12,11 +14,19 @@ queue_t * create_queue() {
     }
     
     queue_handle->next = NULL ;
+    queue_handle->size = 0;
     return queue_handle ;
 }
 
-int destroy_queue(queue_t * queue_handle) {
+uint32_t queue_size(queue_t * queue_handle)  {
+    if ( queue_handle == NULL ) {
+        printf("%s: create_handle unable to allocate memory\n", __FILE__);   
+        return 0;
+    }
+    return queue_handle->size;
+}
 
+int destroy_queue(queue_t * queue_handle) {
     a_node_t * element = queue_handle->next;
     a_node_t * next_element = NULL ;
     while ( element != NULL  )  {
@@ -40,6 +50,7 @@ int enqueue(queue_t * queue_handle, const void * val) {
     
     if (queue_handle->next == NULL)  {
         queue_handle->next = new_element;
+        queue_handle->size++ ;
         return EXIT_SUCCESS;
     }
 
@@ -48,7 +59,8 @@ int enqueue(queue_t * queue_handle, const void * val) {
     while (true) {
         if ( element->next == NULL )  {
                element->next = new_element ;
-            return EXIT_SUCCESS;
+               queue_handle->size++ ;
+               return EXIT_SUCCESS;
         }
         element = element->next ;
     }
@@ -90,37 +102,31 @@ const void *dequeue(queue_t *queue) {
     free(queue->next);
     queue->next = new_next;
 
+    queue->size-- ;
     return return_value;
 }
 
 int main(void)  {
     
     queue_t * queue = create_queue();
-    if (queue == NULL) { 
-        fprintf(stdout, "Unable to create queue\n");
-        return -1; 
-    } 
+    assert( queue != NULL); 
 
     int * int1 = malloc(sizeof(int));
     *int1 = 10 ;
 
-    if (enqueue(queue, int1) != 0 ) { 
-        printf("Issue enqueueing: %s\n", __FILE__);   
-    }
+    assert (enqueue(queue, int1) == 0 ); 
+
     print_queue_contents(queue);
 
     int1 = malloc(sizeof(int));
     *int1 = 20 ;
-    if (enqueue(queue, int1) != 0 ) { 
-        printf("Issue enqueueing: %s\n", __FILE__);   
-    }
+    assert (enqueue(queue, int1) == 0 );
+    
     print_queue_contents(queue);
     
     int1 = malloc(sizeof(int));
     *int1 = 30 ;
-    if (enqueue(queue, int1) != 0 ) { 
-        printf("Issue enqueueing: %s\n", __FILE__);   
-    }
+    assert (enqueue(queue, int1) == 0 );
     print_queue_contents(queue);
     
     printf("Dequeue and print\n");

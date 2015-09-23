@@ -12,7 +12,15 @@ stack_t * create_stack() {
     }
     
     stack_handle->top = NULL ;
+    stack_handle->size = 0;
     return stack_handle ;
+}
+
+uint32_t stack_size(stack_t * stack_handle)  {
+
+    if ( stack_handle == NULL )  { return 0; }   
+
+    return stack_handle->size;
 }
 
 int destroy_stack(stack_t * stack_handle) {
@@ -41,6 +49,7 @@ int push(stack_t * stack_handle, const void * val) {
     stack_handle->top = new_top ;
     
     new_top->next = old_top ;
+    stack_handle->size++ ;
     return EXIT_SUCCESS;
 }
 
@@ -77,6 +86,7 @@ void *pop(stack_t *stack) {
 
     free(stack->top);
     stack->top = stack->top->next ;
+    stack->size-- ;
     return (void *) return_value;
 }
 

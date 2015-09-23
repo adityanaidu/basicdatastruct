@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <assert.h>
 
 #include "basicdatastruct.h"
 
@@ -50,7 +51,6 @@ int ht_insert(hashtable_t * ht, const void * key,
     if (ht == NULL)  { return -1; }
 
     int bucket = adler32(key, keylength) % (ht->numbuckets);
-    printf("Bucket selected: %d\n", bucket);
 
     void * keycpy = calloc(1, keylength) ;
     if ( keycpy  == NULL )  { 
@@ -75,7 +75,6 @@ int ht_insert(hashtable_t * ht, const void * key,
     ht_entry->key = keycpy;
     
     if (ht->table[bucket] == NULL)  {
-        printf("bucket NULL. Init here\n");
         ht->table[bucket] = ht_entry;
     } else {
         
@@ -83,7 +82,6 @@ int ht_insert(hashtable_t * ht, const void * key,
         
         int idx = 0;
         while ( he->next != NULL)  {
-            printf("iter number = %d\n", idx);    
             he = he->next;
             idx++ ;
         }
@@ -97,10 +95,8 @@ const void * ht_retrieve(hashtable_t *ht, const void * key, size_t keylength ) {
     if (ht == NULL)  { return NULL; }
     
     int bucket = adler32(key, keylength) % (ht->numbuckets) ;
-    printf("retrieve bucket: %d\n", bucket);
 
     if (ht->table[bucket] != NULL) {
-        printf("keylength %d\n", (int) (ht->table[bucket])->keylength); 
         return (ht->table[bucket])->value; 
     } else {
         return NULL;
@@ -112,25 +108,32 @@ int main(void)  {
     hashtable_t * ht = NULL;
     ht = create_hashtable(32);
 
-    if (ht == NULL)  {
-        return 1; 
-    }
+    assert (ht != NULL);
 
     int * int1 = malloc(sizeof(int));
     *int1 = 11;
-    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
-    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
-    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
+    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
+
+    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
+
+    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
+
     *int1 = 12;
-    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
+    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
+
     *int1 = 13;
-    ht_insert(ht, int1, sizeof(int), int1, sizeof(int) );
+    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
     
     *int1 = 11;
-    printf("Returned for 11: %d\n", * (int *) ht_retrieve(ht, int1, sizeof(int)));
+    int retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
+    assert(retVal == 11);
+
     *int1 = 12;
-    printf("Returned for 12: %d\n", * (int *) ht_retrieve(ht, int1, sizeof(int)));
+    retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
+    assert(retVal == 12);
+
     *int1 = 13;
-    printf("Returned for 13: %d\n", * (int *) ht_retrieve(ht, int1, sizeof(int)));
+    retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
+    assert(retVal == 13);
     return 0;
 }

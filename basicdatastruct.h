@@ -14,14 +14,19 @@ typedef struct a_node_t {
 
 typedef struct queue_t {
     a_node_t * next ;
+    a_node_t * last ;
+    uint32_t size;
 } queue_t ;
 
 typedef struct stack_t {
     a_node_t * top ;
+    uint32_t size;
 } stack_t ;
 
 typedef struct linkedlist_t {
     a_node_t * next ;
+    a_node_t * last ;
+    uint32_t size;
 } linkedlist_t ;
 
 typedef struct hash_entry_t {
