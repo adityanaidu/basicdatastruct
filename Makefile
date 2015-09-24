@@ -3,20 +3,20 @@ CC=gcc
 CFLAGS=-I. -Wall -g 
 DEPS=basicdatastruct.h
 OBJ=queue.o stack.o hashtable.o linkedlist.o
-LNAME=libdatastruct.a
+STATLIB=libdatastruct.a
 TESTEXE=test
 SRCS=queue.c hashtable.c stack.c linkedlist.c test.c
 
 %.o: %.c $(DEPS) ;   $(CC) -c -o $@ $< $(CFLAGS)
 
-$(LNAME) : $(OBJ)  ;  ar rcs $@ $^ 
 
-clean: ; rm -f $(OBJ) $(LNAME) $(TESTEXE)
 
-hashtable: hashtable.c $(DEPS) ; gcc -o $@ $< $(CFLAGS)
+clean: ; rm -f $(OBJ) $(STATLIB) $(TESTEXE)
 
-linkedlist: linkedlist.c $(DEPS) ; gcc -o linkedlist $<  $(CFLAGS)
+$(STATLIB) : $(OBJ)  ;  ar rcs $@ $^ 
 
-$(TESTEXE): $(SRCS) $(DEPS) $(LNAME) ; gcc -o $@ $@.c -ldatastruct -L. #; ./$(TESTEXE)
+$(TESTEXE): $(SRCS) $(DEPS) $(STATLIB) ; gcc -o $@ $@.c -ldatastruct -L. #; ./$(TESTEXE)
+
+.DEFAULT_GOAL := $(STATLIB)
 
 .PHONY: clean
