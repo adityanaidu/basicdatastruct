@@ -103,3 +103,36 @@ const void * ht_retrieve(hashtable_t *ht, const void * key, size_t keylength ) {
     }
 }
 
+void destroy_list(hash_entry_t *he ) {
+    
+    hash_entry_t * curr = he ;
+    hash_entry_t * next = NULL ;
+    while (curr) {
+        next = curr->next;
+        free(curr->key);
+        free(curr);
+        curr = next;
+    }
+
+    free(he);
+}
+
+void destroy_hashtable(hashtable_t *ht)   {
+    
+    if (ht == NULL)  { return ; }
+
+    hash_entry_t * table = ht->table[0]  ;
+
+    uint32_t numbuckets = ht->numbuckets;
+    
+    uint32_t idx = 0;
+
+    for ( ; idx <  numbuckets ; idx++ )  {
+        if ( ! table  )  {
+            destroy_list(table);
+        }
+        table++ ;
+    }
+    free(ht->table);
+    free(ht);
+}

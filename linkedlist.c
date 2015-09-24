@@ -42,6 +42,8 @@ int destroy_linkedlist( linkedlist_t *ll) {
         curr_node = next_node; 
     }
 
+    free(ll);
+
     return 0;
 }
 

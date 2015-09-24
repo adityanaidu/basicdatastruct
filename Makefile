@@ -9,8 +9,6 @@ SRCS=queue.c hashtable.c stack.c linkedlist.c test.c
 
 %.o: %.c $(DEPS) ;   $(CC) -c -o $@ $< $(CFLAGS)
 
-
-
 clean: ; rm -f $(OBJ) $(STATLIB) $(TESTEXE)
 
 $(STATLIB) : $(OBJ)  ;  ar rcs $@ $^ 

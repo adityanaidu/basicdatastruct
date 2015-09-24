@@ -46,6 +46,8 @@ int main(void)  {
     assert(ll_delete(ll, i, sizeof(int) ) == 0);  
 
     assert(ll_delete(ll, i, sizeof(int) ) != 0);  
+    
+    destroy_linkedlist(ll);
 
     queue_t * queue = create_queue();
     assert( queue != NULL); 
@@ -75,8 +77,9 @@ int main(void)  {
     printf("Dequeue and print\n");
     dequeue(queue);
     print_queue_contents(queue);
-
     destroy_queue(queue);
+
+
 
     hashtable_t * ht = NULL;
     ht = create_hashtable(32);
@@ -106,5 +109,8 @@ int main(void)  {
     *int1 = 13;
     retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
     assert(retVal == 13);
+
+    destroy_hashtable(ht);
+
     return 0;
 }

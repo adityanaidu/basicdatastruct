@@ -84,8 +84,10 @@ void *pop(stack_t *stack) {
     
     const void * return_value = stack->top->value;
 
+    a_node_t * element = stack->top->next;
+
     free(stack->top);
-    stack->top = stack->top->next ;
+    stack->top = element ;
     stack->size-- ;
     return (void *) return_value;
 }

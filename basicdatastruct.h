@@ -48,6 +48,10 @@ int ht_insert(hashtable_t * , const void * , size_t, const void * , size_t );
 
 hashtable_t * create_hashtable(uint32_t ); 
 
+void destroy_hashtable(hashtable_t *ht); 
+
+void destroy_list(hash_entry_t *he ) ;
+
 linkedlist_t * create_linkedlist(void) ; 
 
 int destroy_linkedlist( linkedlist_t *);  
