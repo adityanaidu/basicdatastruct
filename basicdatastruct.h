@@ -4,7 +4,7 @@
 #define  BASICDATASTRUCT_H
 
 #include <stdint.h>
-
+#include <stdbool.h>
 
 typedef struct a_node_t {
     struct a_node_t * next ;

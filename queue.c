@@ -106,37 +106,3 @@ const void *dequeue(queue_t *queue) {
     return return_value;
 }
 
-int main(void)  {
-    
-    queue_t * queue = create_queue();
-    assert( queue != NULL); 
-
-    int * int1 = malloc(sizeof(int));
-    *int1 = 10 ;
-
-    assert (enqueue(queue, int1) == 0 ); 
-
-    print_queue_contents(queue);
-
-    int1 = malloc(sizeof(int));
-    *int1 = 20 ;
-    assert (enqueue(queue, int1) == 0 );
-    
-    print_queue_contents(queue);
-    
-    int1 = malloc(sizeof(int));
-    *int1 = 30 ;
-    assert (enqueue(queue, int1) == 0 );
-    print_queue_contents(queue);
-    
-    printf("Dequeue and print\n");
-    dequeue(queue);
-    print_queue_contents(queue);
-
-    printf("Dequeue and print\n");
-    dequeue(queue);
-    print_queue_contents(queue);
-    
-    destroy_queue(queue);
-    return EXIT_SUCCESS;
-}

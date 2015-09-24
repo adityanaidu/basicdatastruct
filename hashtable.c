@@ -103,37 +103,3 @@ const void * ht_retrieve(hashtable_t *ht, const void * key, size_t keylength ) {
     }
 }
 
-int main(void)  {
-    
-    hashtable_t * ht = NULL;
-    ht = create_hashtable(32);
-
-    assert (ht != NULL);
-
-    int * int1 = malloc(sizeof(int));
-    *int1 = 11;
-    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
-
-    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
-
-    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
-
-    *int1 = 12;
-    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
-
-    *int1 = 13;
-    assert(ht_insert(ht, int1, sizeof(int), int1, sizeof(int) ) == 0);
-    
-    *int1 = 11;
-    int retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
-    assert(retVal == 11);
-
-    *int1 = 12;
-    retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
-    assert(retVal == 12);
-
-    *int1 = 13;
-    retVal =  * (int *) ht_retrieve(ht, int1, sizeof(int));
-    assert(retVal == 13);
-    return 0;
-}
