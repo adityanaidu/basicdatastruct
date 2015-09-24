@@ -58,4 +58,15 @@ int ll_delete(linkedlist_t *, const void * , size_t ) ;
 
 bool ll_ispresent(linkedlist_t *, const void *, size_t ) ; 
 
+stack_t * create_stack(); 
+
+uint32_t stack_size(stack_t * stack_handle) ;
+
+int destroy_stack(stack_t * stack_handle) ;
+
+int push(stack_t * stack_handle, const void * val);
+
+void *pop(stack_t *stack) ; 
+
+queue_t * create_queue() ;
 #endif  // BASICDATASTRUCT_H 
