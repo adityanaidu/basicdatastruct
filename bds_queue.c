@@ -39,7 +39,7 @@ int destroy_queue(bds_queue_t * bds_queue_handle) {
     return 0;
 }
 
-int enqueue(bds_queue_t * bds_queue_handle, const void * val) {
+int bds_enqueue(bds_queue_t * bds_queue_handle, const void * val) {
     
     if (bds_queue_handle == NULL) { return -1; }
     
@@ -89,7 +89,7 @@ int print_bds_queue_contents (bds_queue_t *bds_queue_handle) {
     return 0 ;
 }
 
-const void *dequeue(bds_queue_t *queue) {
+const void * bds_dequeue(bds_queue_t *queue) {
     
     if ( queue == NULL || queue->next == NULL ) {
         return NULL ;

@@ -6,6 +6,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/**
+@file 
+*/
+
 typedef struct a_node_t {
     struct a_node_t * next ;
     const void * value ;
@@ -76,13 +80,30 @@ void *pop(bds_stack_t *stack) ;
 
 uint32_t bds_stack_size(bds_stack_t * bds_stack_handle);
 
+/**
 
+queue as the name suggest and is experienced in everyday life is a 
+collection of items where when an item is removed its the item which has been in the queue the longest - see #bds_dequeue. Any item which is inserted in the queue is enqueued at the tail of the queue - see #bds_enqueue
+
+Note that none of the functions in the whole of basicdatastruct library are thread safe
+*/
 bds_queue_t * bds_queue_create() ;
 
-int enqueue(bds_queue_t * bds_queue_handle, const void * val);  
+/**
+@brief Add an item to the queue
 
-const void *dequeue(bds_queue_t *queue) ; 
+Memory for value has to be managed by the caller
+*/
+int bds_enqueue(bds_queue_t * bds_queue_handle, const void * value);  
 
+/**
+Remove the first item from the queue and return a pointer to it.
+*/
+const void * bds_dequeue(bds_queue_t *queue) ; 
+
+/**
+@brief Returns the number of items in the queue
+*/
 uint32_t bds_queue_size(bds_queue_t * bds_queue_handle);
 
 #endif  // BASICDATASTRUCT_H 

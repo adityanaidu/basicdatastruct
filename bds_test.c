@@ -55,27 +55,27 @@ int main(void)  {
     int1 = malloc(sizeof(int));
     *int1 = 10 ;
 
-    assert (enqueue(queue, int1) == 0 ); 
+    assert (bds_enqueue(queue, int1) == 0 ); 
 
     print_bds_queue_contents(queue);
 
     int1 = malloc(sizeof(int));
     *int1 = 20 ;
-    assert (enqueue(queue, int1) == 0 );
+    assert (bds_enqueue(queue, int1) == 0 );
 
     print_bds_queue_contents(queue);
 
     int1 = malloc(sizeof(int));
     *int1 = 30 ;
-    assert (enqueue(queue, int1) == 0 );
+    assert (bds_enqueue(queue, int1) == 0 );
     //print_bds_queue_contents(queue);
 
     //printf("Dequeue and print\n");
-    dequeue(queue);
+    bds_dequeue(queue);
     print_bds_queue_contents(queue);
 
     printf("Dequeue and print\n");
-    dequeue(queue);
+    bds_dequeue(queue);
     print_bds_queue_contents(queue);
     destroy_queue(queue);
 
