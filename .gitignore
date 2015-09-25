@@ -2,4 +2,7 @@
 tags
 *.lib
 *.a
+html
+latex
+doxygen.conf
 test

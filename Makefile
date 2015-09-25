@@ -2,10 +2,10 @@
 CC=gcc
 CFLAGS=-I. -Wall -g 
 DEPS=basicdatastruct.h
-OBJ=queue.o stack.o hashtable.o linkedlist.o
+OBJ=bds_queue.o bds_stack.o bds_hashtable.o bds_linkedlist.o
 STATLIB=libdatastruct.a
-TESTEXE=test
-SRCS=queue.c hashtable.c stack.c linkedlist.c test.c
+TESTEXE=bds_test
+SRCS=bds_queue.c bds_hashtable.c bds_stack.c bds_linkedlist.c bds_test.c
 
 %.o: %.c $(DEPS) ;   $(CC) -c -o $@ $< $(CFLAGS)
 
