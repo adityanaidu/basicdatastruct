@@ -34,7 +34,7 @@ int destroy_stack(stack_t * stack_handle) {
     }
 
     free(stack_handle);
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 int push(stack_t * stack_handle, const void * val) {
@@ -50,7 +50,7 @@ int push(stack_t * stack_handle, const void * val) {
     
     new_top->next = old_top ;
     stack_handle->size++ ;
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 int print_stack_contents (stack_t *stack_handle) {
@@ -60,7 +60,7 @@ int print_stack_contents (stack_t *stack_handle) {
 
     if (stack_handle == NULL || stack_handle->top == NULL)  {
         printf("Stack empty\n");
-        return EXIT_SUCCESS;
+        return 0;
     }
 
     a_node_t * element = stack_handle->top;
@@ -73,7 +73,7 @@ int print_stack_contents (stack_t *stack_handle) {
         element = element->next ;
         idx++ ;
     }
-    return EXIT_SUCCESS ;
+    return 0 ;
 }
 
 void *pop(stack_t *stack) {

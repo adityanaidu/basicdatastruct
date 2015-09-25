@@ -67,7 +67,7 @@ int ll_insert(linkedlist_t * ll, const void * value, size_t valuelength)  {
     if (ll->next == NULL )  {
         ll->next = node ;
         ll->size++ ;
-        return EXIT_SUCCESS ;
+        return 0 ;
     }
 
     a_node_t * current = ll->next; 
@@ -76,12 +76,12 @@ int ll_insert(linkedlist_t * ll, const void * value, size_t valuelength)  {
        if ( current->next == NULL ) {
            current->next = node ;
            ll->size++ ;
-           return EXIT_SUCCESS;
+           return 0;
        }
        current = current->next ;
     }
 
-    return EXIT_SUCCESS ;
+    return 0 ;
 }
 
 int ll_delete(linkedlist_t * ll, const void * value, size_t valuelength) {
@@ -101,7 +101,7 @@ int ll_delete(linkedlist_t * ll, const void * value, size_t valuelength) {
             prev->next = current->next;
             free(current);
             ll->size-- ;
-            return EXIT_SUCCESS;
+            return 0;
         }
 
         prev = current ;

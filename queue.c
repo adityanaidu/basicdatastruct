@@ -36,7 +36,7 @@ int destroy_queue(queue_t * queue_handle) {
     }
 
     free(queue_handle);
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 int enqueue(queue_t * queue_handle, const void * val) {
@@ -51,7 +51,7 @@ int enqueue(queue_t * queue_handle, const void * val) {
     if (queue_handle->next == NULL)  {
         queue_handle->next = new_element;
         queue_handle->size++ ;
-        return EXIT_SUCCESS;
+        return 0;
     }
 
     a_node_t * element = queue_handle->next ;
@@ -60,11 +60,11 @@ int enqueue(queue_t * queue_handle, const void * val) {
         if ( element->next == NULL )  {
                element->next = new_element ;
                queue_handle->size++ ;
-               return EXIT_SUCCESS;
+               return 0;
         }
         element = element->next ;
     }
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 int print_queue_contents (queue_t *queue_handle) {
@@ -74,7 +74,7 @@ int print_queue_contents (queue_t *queue_handle) {
 
     if (queue_handle == NULL || queue_handle->next == NULL)  {
         printf("Stack empty\n");
-        return EXIT_SUCCESS;
+        return 0;
     }
 
     a_node_t * element = queue_handle->next;
@@ -86,7 +86,7 @@ int print_queue_contents (queue_t *queue_handle) {
         element = element->next ;
         idx++ ;
     }
-    return EXIT_SUCCESS ;
+    return 0 ;
 }
 
 const void *dequeue(queue_t *queue) {
