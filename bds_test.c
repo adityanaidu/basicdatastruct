@@ -77,8 +77,7 @@ int main(void)  {
     printf("Dequeue and print\n");
     bds_dequeue(queue);
     print_bds_queue_contents(queue);
-    destroy_queue(queue);
-
+    bds_queue_destroy(queue);
 
 
     bds_hashtable_t * ht = NULL;

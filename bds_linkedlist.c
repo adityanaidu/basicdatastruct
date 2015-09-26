@@ -22,7 +22,7 @@ bds_linkedlist_t * create_linkedlist()  {
 
 }
 
-uint32_t bds_linkedlist_size(bds_linkedlist_t * ll)  {
+size_t bds_linkedlist_size(bds_linkedlist_t * ll)  {
         
     if (ll == NULL) { return 0; }
 

@@ -16,7 +16,7 @@ bds_stack_t * bds_stack_create() {
     return bds_stack_handle ;
 }
 
-uint32_t bds_stack_size(bds_stack_t * bds_stack_handle)  {
+size_t bds_stack_size(bds_stack_t * bds_stack_handle)  {
 
     if ( bds_stack_handle == NULL )  { return 0; }   
 

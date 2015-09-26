@@ -18,7 +18,7 @@ bds_queue_t * bds_queue_create() {
     return bds_queue_handle ;
 }
 
-uint32_t bds_queue_size(bds_queue_t * bds_queue_handle)  {
+size_t bds_queue_size(bds_queue_t * bds_queue_handle)  {
     if ( bds_queue_handle == NULL ) {
         printf("%s: create_handle unable to allocate memory\n", __FILE__);   
         return 0;
@@ -26,7 +26,7 @@ uint32_t bds_queue_size(bds_queue_t * bds_queue_handle)  {
     return bds_queue_handle->size;
 }
 
-int destroy_queue(bds_queue_t * bds_queue_handle) {
+int bds_queue_destroy(bds_queue_t * bds_queue_handle) {
     a_node_t * element = bds_queue_handle->next;
     a_node_t * next_element = NULL ;
     while ( element != NULL  )  {
