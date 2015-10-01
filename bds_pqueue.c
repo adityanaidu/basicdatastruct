@@ -120,7 +120,8 @@ void bds_pqueue_destroy(bds_pqueue_t * pqueue)  {
     for ( ; idx < pqueue->curr_size ; idx++ )  {
         free(pqueue->array[idx]);
     }
-
+    
+    free(pqueue->array);
     free(pqueue);
 }
 

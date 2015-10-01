@@ -117,6 +117,7 @@ int main(void)  {
     int * pri = malloc( sizeof(int));
     * pri = 10 ;
     int rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
+    rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
     printf ("Returned %d\n",  * (int*) bds_pqueue_remove(pq)) ; 
     
     bds_pqueue_destroy(pq);
