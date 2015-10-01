@@ -26,7 +26,7 @@ uint32_t adler32(const void *buf, size_t buflength)  {
     return (( s2 << 16 ) | s1) ;
 }
 
-bds_hashtable_t * create_hashtable(uint32_t num_buckets)  {
+bds_hashtable_t * create_hashtable(size_t num_buckets)  {
     
     bds_hashtable_t * ht = NULL;
     ht = calloc(1, sizeof(bds_hashtable_t));

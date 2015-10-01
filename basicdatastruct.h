@@ -41,16 +41,27 @@ typedef struct hash_entry_t {
 } hash_entry_t;
 
 typedef struct bds_hashtable_t {
-    int numbuckets ;    
+    size_t numbuckets ;    
     hash_entry_t ** table;
 } bds_hashtable_t;
 
+typedef struct bds_pqueue_node_t {
+    void * priority;
+    size_t prioritylen;
+    void * value;
+} bds_pqueue_node_t ;
+
+typedef struct bds_pqueue_t {
+    bds_pqueue_node_t ** array;
+    size_t capacity ;
+    size_t curr_size ;
+} bds_pqueue_t ; 
 
 const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
 
 int bds_hashtable_insert(bds_hashtable_t * , const void * , size_t, const void * , size_t ); 
 
-bds_hashtable_t * create_hashtable(uint32_t ); 
+bds_hashtable_t * create_hashtable(size_t ); 
 
 /**
 
@@ -130,5 +141,14 @@ int bds_queue_destroy(bds_queue_t * );
 @brief Returns the number of items in the queue
 */
 size_t bds_queue_size(bds_queue_t * );
+
+
+bds_pqueue_t * bds_create_pqueue(size_t capacity) ; 
+
+int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, size_t prioritylen, void * value);  
+
+void * bds_pqueue_remove(bds_pqueue_t *pqueue) ;
+
+void bds_pqueue_destroy(bds_pqueue_t * pqueue);
 
 #endif  // BASICDATASTRUCT_H 
