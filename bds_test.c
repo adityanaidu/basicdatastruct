@@ -117,12 +117,20 @@ int main(void)  {
     int * pri = malloc( sizeof(int));
     * pri = 10 ;
     int rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
+    assert (rc == 0 );
     rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
-    bds_pqueue_print(pq);
-
-    printf ("Returned %d\n",  * (int*) bds_pqueue_remove(pq)) ; 
+    assert (rc == 0 );
     
     bds_pqueue_print(pq);
+    int rv = 0 ; 
+    rv = * (int*) bds_pqueue_remove(pq) ; 
+    assert (rv = 10 );
+    
+    bds_pqueue_print(pq);
+    rv = 0;   
+    rv = * (int*) bds_pqueue_remove(pq) ; 
+    assert (rv = 10 );
+    
     bds_pqueue_destroy(pq);
     return 0;
 }
