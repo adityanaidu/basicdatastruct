@@ -118,8 +118,11 @@ int main(void)  {
     * pri = 10 ;
     int rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
     rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
+    bds_pqueue_print(pq);
+
     printf ("Returned %d\n",  * (int*) bds_pqueue_remove(pq)) ; 
     
+    bds_pqueue_print(pq);
     bds_pqueue_destroy(pq);
     return 0;
 }

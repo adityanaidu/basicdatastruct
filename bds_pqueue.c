@@ -113,6 +113,16 @@ void * bds_pqueue_remove(bds_pqueue_t *pqueue)  {
     return returnval ;
 }
 
+void bds_pqueue_print(bds_pqueue_t * pqueue)  {
+    if (pqueue ==  NULL)  {printf("pqueue is NULL\n"); }
+    size_t idx = 0;
+    printf("Printing pqueue:\n");
+    for ( ; idx < pqueue->curr_size; idx++ )  {
+        bds_pqueue_node_t * pnode = pqueue->array[idx];
+        printf("idx: %zu; pri: %d; val: %d\n", idx, * (int *) (pnode->priority),
+                    * (int *) (pnode->value));
+    }
+}
 
 void bds_pqueue_destroy(bds_pqueue_t * pqueue)  {
     
