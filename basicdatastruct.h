@@ -64,7 +64,7 @@ const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
 
 /**
 
-\brief Insert \p key and \p value into \ht
+\brief Insert \p key \p value pair into \p ht
 
 Memory for \p value has to be managed by caller. A copy of the \p key will be made and managed internally though.
 */
@@ -92,9 +92,24 @@ free memory allocated for the linkedlist infrastructure. Memory allocated by cal
 */
 int bds_linkedlist_destroy( bds_linkedlist_t *);  
 
-int bds_linkedlist_insert(bds_linkedlist_t *, const void * , size_t ); 
+/**
 
-int bds_linkedlist_delete(bds_linkedlist_t *, const void * , size_t ) ;
+insert \p value into \p ll. size of \p valuesize is the size of \p value. Takes O(n) time
+
+*/
+int bds_linkedlist_insert(bds_linkedlist_t *ll, const void *value, 
+          size_t valuesize); 
+
+/**
+
+delete \p value of size \p valuesize.Takes O(n) time
+*/
+int bds_linkedlist_delete(bds_linkedlist_t *, const void * value,
+            size_t valuesize) ;
+
+/**
+Takes O(n) time.
+*/
 
 bool bds_linkedlist_ispresent(bds_linkedlist_t *, const void *, size_t ) ; 
 

@@ -47,7 +47,8 @@ int bds_linkedlist_destroy( bds_linkedlist_t *ll) {
     return 0;
 }
 
-int bds_linkedlist_insert(bds_linkedlist_t * ll, const void * value, size_t valuelength)  {
+int bds_linkedlist_insert(bds_linkedlist_t * ll, const void * value,
+            size_t valuelength)  {
     
    if (value == NULL)  {
        printf("Unable to insert NULL value\n");
