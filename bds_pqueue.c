@@ -143,6 +143,8 @@ int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, void * value)  {
     }
 
     bds_pqueue_node_t * pnode = malloc(sizeof(bds_pqueue_node_t));
+    
+    if (pnode == NULL)   { return -1 ; }
 
     pnode->priority = priority;
     pnode->value = value;
