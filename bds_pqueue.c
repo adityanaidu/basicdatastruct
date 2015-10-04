@@ -23,7 +23,7 @@ void percolateup(bds_pqueue_t *pqueue, size_t nodeindex)  {
     bds_pqueue_node_t * parentnode = pqueue->array[parentarrayindex] ;
 
     if ( memcmp(parentnode->priority, curr_node->priority,
-              curr_node->prioritylen) > 0 ) { // swap child and parent
+              pqueue->prioritylength) > 0 ) { // swap child and parent
         pqueue->array[childarrayindex] = pqueue->array[parentarrayindex];  
         pqueue->array[parentarrayindex] = curr_node ; 
 
@@ -33,7 +33,7 @@ void percolateup(bds_pqueue_t *pqueue, size_t nodeindex)  {
 
 // nodeindex parameter is 1 based
 int percolatedown(bds_pqueue_t * pqueue, size_t nodeindex) {
-    
+
     size_t parentarrayindex = nodeindex - 1 ;
     size_t minchildarrayindex = 0 ;
     
@@ -47,8 +47,8 @@ int percolatedown(bds_pqueue_t * pqueue, size_t nodeindex) {
         bds_pqueue_node_t * child1 = pqueue->array[nodeindex * 2-1];
         bds_pqueue_node_t * child2 = pqueue->array[nodeindex * 2 ];
 
-        if ( memcmp(child1->priority, child2->priority, child2->prioritylen)
-                    > 0 )  {
+        if ( memcmp(child1->priority, child2->priority,
+                 pqueue->prioritylength) > 0 ) {
             minchildarrayindex = nodeindex * 2 ;
         } else {
             minchildarrayindex = nodeindex * 2 - 1 ;
@@ -57,7 +57,7 @@ int percolatedown(bds_pqueue_t * pqueue, size_t nodeindex) {
     
     if ( memcmp(pqueue->array[parentarrayindex]->priority,
                  pqueue->array[minchildarrayindex]->priority, 
-                  pqueue->array[parentarrayindex]->prioritylen) > 0 ) {
+                  pqueue->prioritylength) > 0 ) {
         
         // swap parent and minchild
         bds_pqueue_node_t *tmp =  pqueue->array[parentarrayindex] ;
@@ -71,7 +71,7 @@ int percolatedown(bds_pqueue_t * pqueue, size_t nodeindex) {
     return 0;
 }
 
-bds_pqueue_t * bds_create_pqueue(size_t capacity)  {
+bds_pqueue_t * bds_pqueue_create(size_t capacity, size_t prioritylength)  {
     
     bds_pqueue_t * pqueue = NULL;
     pqueue = malloc(sizeof(bds_pqueue_t));
@@ -83,6 +83,7 @@ bds_pqueue_t * bds_create_pqueue(size_t capacity)  {
     
     pqueue->capacity = capacity;
     pqueue->curr_size = 0 ;
+    pqueue->prioritylength = prioritylength ;
     bds_pqueue_node_t ** pqueue_array = 
                                  calloc(capacity, sizeof(bds_pqueue_node_t *));
     
@@ -119,8 +120,8 @@ void bds_pqueue_print(bds_pqueue_t * pqueue)  {
     printf("Printing pqueue:\n");
     for ( ; idx < pqueue->curr_size; idx++ )  {
         bds_pqueue_node_t * pnode = pqueue->array[idx];
-        printf("idx: %zu; pri: %d; val: %d\n", idx, * (int *) (pnode->priority),
-                    * (int *) (pnode->value));
+        printf("idx: %zu; pri: %c; val: %c\n", idx, * (char *) (pnode->priority),
+                    * (char *) (pnode->value));
     }
 }
 
@@ -135,7 +136,7 @@ void bds_pqueue_destroy(bds_pqueue_t * pqueue)  {
     free(pqueue);
 }
 
-int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, size_t prioritylen, void * value)  {
+int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, void * value)  {
     
     if (pqueue->capacity == pqueue->curr_size)  {
         return -1 ;
@@ -144,7 +145,6 @@ int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, size_t prioritylen,
     bds_pqueue_node_t * pnode = malloc(sizeof(bds_pqueue_node_t));
 
     pnode->priority = priority;
-    pnode->prioritylen = prioritylen;
     pnode->value = value;
 
     pqueue->array[pqueue->curr_size] = pnode ; 
@@ -153,4 +153,12 @@ int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, size_t prioritylen,
     percolateup(pqueue, pqueue->curr_size);
 
     return 0;
+}
+
+size_t bds_pqueue_size(bds_pqueue_t * pqueue)  {
+    return pqueue->curr_size ;
+}
+
+size_t bds_pqueue_capacity(bds_pqueue_t * pqueue)  {
+    return pqueue->capacity ;   
 }

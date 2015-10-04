@@ -8,6 +8,8 @@
 
 /**
 @file 
+
+This file contains all the public functions of this library
 */
 
 typedef struct a_node_t {
@@ -53,6 +55,7 @@ typedef struct bds_pqueue_node_t {
 
 typedef struct bds_pqueue_t {
     bds_pqueue_node_t ** array;
+    size_t prioritylength; 
     size_t capacity ;
     size_t curr_size ;
 } bds_pqueue_t ; 
@@ -85,7 +88,7 @@ int bds_linkedlist_delete(bds_linkedlist_t *, const void * , size_t ) ;
 bool bds_linkedlist_ispresent(bds_linkedlist_t *, const void *, size_t ) ; 
 
 
-bds_stack_t * bds_stack_create(); 
+bds_stack_t * bds_stack_create(void); 
 
 /**
 
@@ -99,9 +102,9 @@ free memory allocated for the stack infrastructure. Memory allocated by caller t
 */
 int destroy_stack(bds_stack_t * bds_stack_handle) ;
 
-int push(bds_stack_t * bds_stack_handle, const void * val);
+int bds_stack_push(bds_stack_t * bds_stack_handle, const void * val);
 
-void *pop(bds_stack_t *stack) ; 
+void *bds_stack_pop(bds_stack_t *stack) ; 
 
 /**
 
@@ -116,7 +119,7 @@ collection of items where when an item is removed its the item which has been in
 
 Note that none of the functions in the whole of basicdatastruct library are thread safe
 */
-bds_queue_t * bds_queue_create() ;
+bds_queue_t * bds_queue_create(void) ;
 
 /**
 @brief Add an item to the queue
@@ -142,13 +145,39 @@ int bds_queue_destroy(bds_queue_t * );
 */
 size_t bds_queue_size(bds_queue_t * );
 
+/**
 
-bds_pqueue_t * bds_create_pqueue(size_t capacity) ; 
+@brief Creates a priority queue which can contain at most \p capacity items
+*/
+bds_pqueue_t * bds_pqueue_create(size_t capacity, size_t prioritylength) ; 
 
-int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, size_t prioritylen, void * value);  
+/**
+@brief Inserts \p item in \p pqueue. User needs to allocate memory for \p item.
 
+*/
+int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, void * item);  
+
+/**
+
+@brief Remove (possibly one of ) the lowest priority item
+*/
 void * bds_pqueue_remove(bds_pqueue_t *pqueue) ;
 
+/**
+@brief free up all memory allocated by the library. 
+
+*/
 void bds_pqueue_destroy(bds_pqueue_t * pqueue);
+
+/**
+@brief Returns the number of items currently in \p pqueue
+*/
+size_t bds_pqueue_size(bds_pqueue_t * pqueue);
+
+/**
+@brief Returns the capacity of \p pqueue
+*/
+size_t bds_pqueue_capacity(bds_pqueue_t * pqueue);
+
 
 #endif  // BASICDATASTRUCT_H 

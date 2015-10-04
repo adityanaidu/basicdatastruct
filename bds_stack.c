@@ -37,7 +37,7 @@ int destroy_stack(bds_stack_t * bds_stack_handle) {
     return 0;
 }
 
-int push(bds_stack_t * bds_stack_handle, const void * val) {
+int bds_stack_push(bds_stack_t * bds_stack_handle, const void * val) {
     
     if (bds_stack_handle == NULL) { return -1; }
     
@@ -76,7 +76,7 @@ int print_bds_stack_contents (bds_stack_t *bds_stack_handle) {
     return 0 ;
 }
 
-void *pop(bds_stack_t *stack) {
+void *bds_stack_pop(bds_stack_t *stack) {
     
     if ( stack == NULL || stack->top == NULL ) {
         return NULL ;

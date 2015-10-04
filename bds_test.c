@@ -13,21 +13,20 @@ int main(void)  {
     int * int1 = malloc(sizeof(int));
     *int1 = 10 ;
 
-    assert (push(stack, int1) == 0 );  
+    assert ( bds_stack_push(stack, int1) == 0 );  
 
-    int1 = malloc(sizeof(int));
-    *int1 = 20 ;
-    assert (push(stack, int1) == 0 );  
+    int * int2 = malloc(sizeof(int));
+    *int2 = 20 ;
+    assert ( bds_stack_push(stack, int2) == 0 );  
 
-    int1 = malloc(sizeof(int));
-    *int1 = 30 ;
-    assert(push(stack, int1) == 0 );
+    int * int3 = malloc(sizeof(int));
+    *int3 = 30 ;
+    assert( bds_stack_push(stack, int3) == 0 );
 
     print_bds_stack_contents(stack);
 
-    void *intVal = pop(stack);
+    void *intVal = bds_stack_pop(stack);
     assert(intVal != NULL);  
-    //print_bds_stack_contents(stack);
 
     destroy_stack(stack);
 
@@ -113,24 +112,34 @@ int main(void)  {
 
 
 
-    bds_pqueue_t * pq =  bds_create_pqueue(10); 
-    int * pri = malloc( sizeof(int));
-    * pri = 10 ;
-    int rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
+    bds_pqueue_t * pq =  bds_pqueue_create(10, sizeof(char) ); 
+    char * pri1 = malloc( sizeof(char ));
+    * pri1 = 'E' ;
+    int rc = bds_pqueue_insert(pq, pri1, pri1) ; 
     assert (rc == 0 );
-    rc = bds_pqueue_insert(pq, pri, sizeof(int), pri) ; 
+
+    char * pri2 = malloc( sizeof(char ));
+    * pri2 = 'B' ;
+    rc = bds_pqueue_insert(pq, pri2, pri2) ; 
+    assert (rc == 0 );
+
+    int * pri3 = malloc( sizeof(char ));
+    * pri3 = 'C' ;
+    rc = bds_pqueue_insert(pq, pri3, pri3) ; 
     assert (rc == 0 );
     
     bds_pqueue_print(pq);
-    int rv = 0 ; 
-    rv = * (int*) bds_pqueue_remove(pq) ; 
+    char rv ; 
+    rv = * (char *) bds_pqueue_remove(pq) ; 
     assert (rv = 10 );
     
     bds_pqueue_print(pq);
-    rv = 0;   
-    rv = * (int*) bds_pqueue_remove(pq) ; 
+    rv = * (char *) bds_pqueue_remove(pq) ; 
     assert (rv = 10 );
     
     bds_pqueue_destroy(pq);
+    free(pri1);
+    free(pri2);
+    free(pri3);
     return 0;
 }

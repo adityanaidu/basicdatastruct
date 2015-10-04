@@ -138,7 +138,7 @@ void bds_hashtable_destroy(bds_hashtable_t *ht)   {
     size_t idx = 0;
 
     for ( ; idx <  numbuckets ; idx++ )  {
-        if ( table )  {
+        if ( *table )  {
             destroy_list( *table);
         }
         table++ ;
