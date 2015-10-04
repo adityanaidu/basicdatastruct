@@ -82,10 +82,11 @@ int bds_linkedlist_insert(bds_linkedlist_t * ll, const void * value,
        current = current->next ;
     }
 
-    return 0 ;
+    return -1 ;
 }
 
-int bds_linkedlist_delete(bds_linkedlist_t * ll, const void * value, size_t valuelength) {
+int bds_linkedlist_delete(bds_linkedlist_t * ll, const void * value,
+      size_t valuelength) {
     
     if (ll == NULL || ll->next == NULL )  { 
         printf("Either ll is NULL or its empty\n");
@@ -93,14 +94,19 @@ int bds_linkedlist_delete(bds_linkedlist_t * ll, const void * value, size_t valu
     }
 
     a_node_t * current = ll->next;
-    a_node_t * prev = (a_node_t *) ll ; // ugly hack 
+    a_node_t * prev = NULL ; 
 
-    while ( current != NULL )  {
+    while ( current )  {
         
         if ( memcmp(current->value, value, valuelength) == 0 ) {
             // delete this element
-            prev->next = current->next;
+            if (prev) { //not head link
+                prev->next = current->next;
+            } else {
+                ll->next = current->next ;
+            }
             free(current);
+            current = NULL;
             ll->size-- ;
             return 0;
         }
@@ -109,25 +115,22 @@ int bds_linkedlist_delete(bds_linkedlist_t * ll, const void * value, size_t valu
         current = current->next ;   
     }
     
-    printf("Didn't find the element\n");
-    return -1 ;
+    return -2 ;
 }
 
-bool bds_linkedlist_ispresent(bds_linkedlist_t * ll, const void * value, size_t valuelength)   {
+bool bds_linkedlist_ispresent(bds_linkedlist_t * ll, const void * value,
+             size_t valuelength)   {
     
-    if (ll == NULL)  { return -1; }
+    if (ll == NULL || ll->next == NULL )  { return false; }
 
     a_node_t * node = ll->next;
-
-    while(node != NULL)  {
-        
+    
+    do {
         if ( memcmp(node->value, value, valuelength) == 0 )  {
             return true;
         }
-
         node = node->next ;
-
-    }
+    } while ( node ) ;
     
     return false;
 }
