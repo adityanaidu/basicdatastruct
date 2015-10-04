@@ -83,7 +83,7 @@ int main(void)  {
     
 
     bds_hashtable_t * ht = NULL;
-    ht = create_hashtable(32);
+    ht = bds_hashtable_create(16);
     assert (ht != NULL);
     
     int1 = malloc(intsize);
@@ -93,7 +93,7 @@ int main(void)  {
     assert(bds_hashtable_insert(ht, int1, intsize, int1) == 0);
 
     assert(bds_hashtable_insert(ht, int1, intsize, int1) == 0);
-    
+
     int2 = malloc(intsize);
     *int2 = 12;
     assert(bds_hashtable_insert(ht, int2, intsize, int2) == 0);
@@ -102,14 +102,24 @@ int main(void)  {
     *int3 = 13;
     assert(bds_hashtable_insert(ht, int3, intsize, int3) == 0);
     
-    int retVal =  * (int *) bds_hashtable_retrieve(ht, int1, intsize);
+    bds_hashtable_print(ht);
+
+    int retVal =  * (int *) bds_hashtable_search(ht, int1, intsize);
     assert(retVal == 11);
 
-    retVal =  * (int *) bds_hashtable_retrieve(ht, int2, intsize);
+    retVal =  * (int *) bds_hashtable_search(ht, int2, intsize);
     assert(retVal == 12);
 
-    retVal =  * (int *) bds_hashtable_retrieve(ht, int3, intsize);
-    assert(retVal == 13);
+    assert( bds_hashtable_delete(ht, int3, intsize) == 0);
+    
+    assert( bds_hashtable_delete(ht, int3, intsize) == -1 );
+    
+    assert( bds_hashtable_delete(ht, int1, intsize) == 0 );
+                  
+    bds_hashtable_print(ht);
+    
+    int notfound = 5;
+    assert (bds_hashtable_search(ht, &notfound, intsize) == NULL);
 
     bds_hashtable_destroy(ht);
     free(int1); free(int2); free(int3); 

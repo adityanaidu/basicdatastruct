@@ -49,7 +49,7 @@ typedef struct bds_hashtable_t {
 
 typedef struct bds_pqueue_node_t {
     void * priority;
-    size_t prioritylen;
+    size_t prioritylen; ///< Currently not used.
     void * value;
 } bds_pqueue_node_t ;
 
@@ -60,7 +60,13 @@ typedef struct bds_pqueue_t {
     size_t curr_size ;
 } bds_pqueue_t ; 
 
-const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
+const void * bds_hashtable_search(bds_hashtable_t *, const void *, size_t );
+
+/**
+
+Delete \p key with length \p keylen from the hashtable
+*/
+int bds_hashtable_delete(bds_hashtable_t * ht, const void *key, size_t keylen);
 
 /**
 
@@ -71,7 +77,7 @@ Memory for \p value has to be managed by caller. A copy of the \p key will be ma
 int bds_hashtable_insert(bds_hashtable_t * ht , const void *key , 
          size_t keylength, const void * value); 
 
-bds_hashtable_t * create_hashtable(size_t ); 
+bds_hashtable_t * bds_hashtable_create(size_t ); 
 
 /**
 
