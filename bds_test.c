@@ -5,7 +5,9 @@
 
 #include "basicdatastruct.h"
 
-int main(void)  {
+
+void teststack(void)  {
+    printf("Testing stack\n");
 
     bds_stack_t * stack = bds_stack_create();
     assert(stack != NULL);  
@@ -32,30 +34,49 @@ int main(void)  {
     destroy_stack(stack);
     
     free(int1); free(int2); free(int3) ;
+}
 
+void testlinkedlist(void)   {
+
+    printf("Testing linkedlist\n");
     bds_linkedlist_t * ll = create_linkedlist();
     assert (ll != NULL);
 
-    int * i = malloc(intsize);
-    *i = 15 ;
-    assert(bds_linkedlist_insert(ll, i, intsize ) == 0);
-    assert (bds_linkedlist_ispresent(ll, i, intsize ) == true );
+    size_t intsize = sizeof(int);
+    
+    int * int1 = malloc(intsize);
+    *int1 = 15 ;
+    assert(bds_linkedlist_insert(ll, int1, intsize ) == 0);
+    assert(bds_linkedlist_ispresent(ll, int1, intsize ) == true );
+    
+    assert(bds_linkedlist_insert(ll, int1, intsize ) == 0);
 
-    int * testint = malloc(intsize);
-    *testint = 50 ;
-    assert(bds_linkedlist_ispresent(ll, testint, intsize ) == false );
+    int * testint1 = malloc(intsize);
+    *testint1 = 50 ;
+    assert(bds_linkedlist_insert(ll, testint1, intsize ) == 0);
+    assert(bds_linkedlist_ispresent(ll, testint1, intsize ) == true );
+    
+    int * testint2 = malloc(sizeof(int)) ;
+    *testint2 = 51 ;
+    assert(bds_linkedlist_ispresent(ll, testint2, intsize) == false );
 
-    assert(bds_linkedlist_delete(ll, i, intsize ) == 0);  
-
-    assert(bds_linkedlist_delete(ll, i, intsize ) != 0);  
+    assert(bds_linkedlist_delete(ll, int1, intsize ) == 0);  
+    
+    int notpresent = 55 ;
+    assert(bds_linkedlist_delete(ll, &notpresent, intsize ) == -2);  
     
     bds_linkedlist_destroy(ll);
-    free(i); free(testint) ;
+    free(int1); free(testint1) ; free(testint2) ;
+}
 
-
+void testqueue(void)  {
+    printf("Testing queue\n");
     bds_queue_t * queue = bds_queue_create();
     assert( queue != NULL); 
+    
+    int *int1, *int2, *int3 ;
 
+    size_t intsize = sizeof(int);
     int1 = malloc(intsize);
     *int1 = 10 ;
     assert (bds_enqueue(queue, int1) == 0 ); 
@@ -80,12 +101,17 @@ int main(void)  {
     print_bds_queue_contents(queue);
     bds_queue_destroy(queue);
     free(int1); free(int2); free(int3); 
-    
+}
 
+void testhashtable(void)   {
+
+    printf("Testing hashtable\n");
     bds_hashtable_t * ht = NULL;
     ht = bds_hashtable_create(16);
     assert (ht != NULL);
     
+    int *int1, *int2, *int3 ;
+    size_t intsize = sizeof(int);
     int1 = malloc(intsize);
     *int1 = 11;
     assert(bds_hashtable_insert(ht, int1, intsize, int1) == 0);
@@ -124,6 +150,10 @@ int main(void)  {
     bds_hashtable_destroy(ht);
     free(int1); free(int2); free(int3); 
 
+}
+
+void testpqueue(void)  {
+    printf("Testing pqueue\n");
 
     bds_pqueue_t * pq =  bds_pqueue_create(10, sizeof(char) ); 
     char * pri1 = malloc( sizeof(char ));
@@ -158,5 +188,15 @@ int main(void)  {
 
     bds_pqueue_destroy(pq);
     free(pri1); free(pri2); free(pri3);
+}
+
+int main(void)  {
+    
+    testpqueue() ; 
+    teststack();
+    testqueue();
+
+    testlinkedlist();
+    testhashtable();
     return 0;
 }
