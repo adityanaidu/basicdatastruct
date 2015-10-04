@@ -9,7 +9,7 @@
 /**
 @file 
 
-This file contains all the public functions of this library
+This file contains all the public API of this library
 */
 
 typedef struct a_node_t {
@@ -62,7 +62,14 @@ typedef struct bds_pqueue_t {
 
 const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
 
-int bds_hashtable_insert(bds_hashtable_t * , const void * , size_t, const void * , size_t ); 
+/**
+
+\brief Insert \p key and \p value into \ht
+
+Memory for \p value has to be managed by caller. A copy of the \p key will be made and managed internally though.
+*/
+int bds_hashtable_insert(bds_hashtable_t * ht , const void *key , 
+         size_t keylength, const void * value); 
 
 bds_hashtable_t * create_hashtable(size_t ); 
 
@@ -72,7 +79,11 @@ free memory allocated for the hashtable infrastructure. Memory allocated by call
 */
 void bds_hashtable_destroy(bds_hashtable_t *ht); 
 
+/**
 
+\brief Creates a singly linked list
+
+*/
 bds_linkedlist_t * create_linkedlist(void) ; 
 
 /**
@@ -92,7 +103,7 @@ bds_stack_t * bds_stack_create(void);
 
 /**
 
-\return Number of items in the stack
+\return Number of items in the stack. Takes O(1) time
 */
 size_t bds_stack_size(bds_stack_t * bds_stack_handle) ;
 
@@ -102,13 +113,21 @@ free memory allocated for the stack infrastructure. Memory allocated by caller t
 */
 int destroy_stack(bds_stack_t * bds_stack_handle) ;
 
-int bds_stack_push(bds_stack_t * bds_stack_handle, const void * val);
+/**
 
+\brief Memory for \p value has to be managed by caller. Takes O(1) time
+
+*/
+int bds_stack_push(bds_stack_t * bds_stack_handle, const void * value);
+
+/**
+Takes O(1) time
+*/
 void *bds_stack_pop(bds_stack_t *stack) ; 
 
 /**
 
-\return Number of items in the stack
+\return Number of items in the stack. Takes O(1) time
 */
 size_t bds_stack_size(bds_stack_t * bds_stack_handle);
 
@@ -124,12 +143,15 @@ bds_queue_t * bds_queue_create(void) ;
 /**
 @brief Add an item to the queue
 
-Memory for value has to be managed by the caller.
+Memory for value has to be managed by the caller. Takes O(n) time
 */
 int bds_enqueue(bds_queue_t * bds_queue_handle, const void * value);  
 
 /**
-Remove the first item from the queue and return a pointer to it.
+@brief Remove the first item from the queue and return a pointer to it.
+
+Takes O(1) time
+
 */
 const void * bds_dequeue(bds_queue_t * ) ; 
 
@@ -141,7 +163,7 @@ free memory allocated for the queue infrastructure. Memory allocated by caller t
 int bds_queue_destroy(bds_queue_t * ); 
 
 /**
-@brief Returns the number of items in the queue
+@brief Returns the number of items in the queue. Takes O(1) time
 */
 size_t bds_queue_size(bds_queue_t * );
 
@@ -170,7 +192,7 @@ void * bds_pqueue_remove(bds_pqueue_t *pqueue) ;
 void bds_pqueue_destroy(bds_pqueue_t * pqueue);
 
 /**
-@brief Returns the number of items currently in \p pqueue
+@brief Returns the number of items currently in \p pqueue. Takes O(1) time
 */
 size_t bds_pqueue_size(bds_pqueue_t * pqueue);
 
