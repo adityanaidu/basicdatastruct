@@ -14,6 +14,7 @@ bds_queue_t * bds_queue_create() {
     }
     
     bds_queue_handle->next = NULL ;
+    bds_queue_handle->last = NULL ;
     bds_queue_handle->size = 0;
     return bds_queue_handle ;
 }
@@ -39,45 +40,40 @@ int bds_queue_destroy(bds_queue_t * bds_queue_handle) {
     return 0;
 }
 
-int bds_enqueue(bds_queue_t * bds_queue_handle, const void * val) {
+int bds_enqueue(bds_queue_t * queue, const void * val) {
     
-    if (bds_queue_handle == NULL) { return -1; }
+    if (queue == NULL) { return -1; }
     
     a_node_t * new_element = malloc(sizeof(a_node_t ) );
     if ( new_element == NULL ) { return -1 ;  }
     new_element->value = val ;
     new_element->next = NULL ;
     
-    if (bds_queue_handle->next == NULL)  {
-        bds_queue_handle->next = new_element;
-        bds_queue_handle->size++ ;
+    if (queue->next == NULL)  {
+        queue->next = new_element;
+        queue->last = new_element;
+        queue->size++ ;
+        return 0;
+    }  else  {
+        queue->last->next = new_element ;
+        queue->last = new_element ;
+        queue->size++ ;
         return 0;
     }
 
-    a_node_t * element = bds_queue_handle->next ;
-
-    while (true) {
-        if ( element->next == NULL )  {
-               element->next = new_element ;
-               bds_queue_handle->size++ ;
-               return 0;
-        }
-        element = element->next ;
-    }
-    return 0;
 }
 
-int print_bds_queue_contents (bds_queue_t *bds_queue_handle) {
+int print_bds_queue_contents (bds_queue_t *queue) {
     
     printf("Print queue contents\n");
     int idx = 0;
 
-    if (bds_queue_handle == NULL || bds_queue_handle->next == NULL)  {
+    if (queue == NULL || queue->next == NULL)  {
         printf("Stack empty\n");
         return 0;
     }
 
-    a_node_t * element = bds_queue_handle->next;
+    a_node_t * element = queue->next;
 
     while ( element != NULL ) {
         const void * intp = element->value;

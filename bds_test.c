@@ -91,18 +91,25 @@ void testqueue(void)  {
     *int2 = 20 ;
     assert (bds_enqueue(queue, int2) == 0 );
 
-    print_bds_queue_contents(queue);
+    assert(bds_queue_size(queue) == 2);
+    //print_bds_queue_contents(queue);
 
     int3 = malloc(intsize);
     *int3 = 30 ;
     assert (bds_enqueue(queue, int3) == 0 );
     
-    bds_dequeue(queue);
-    print_bds_queue_contents(queue);
+    assert(bds_queue_size(queue) == 3);
 
-    printf("Dequeue and print\n");
     bds_dequeue(queue);
-    print_bds_queue_contents(queue);
+    assert(bds_queue_size(queue) == 2);
+
+    //print_bds_queue_contents(queue);
+
+    //printf("Dequeue and print\n");
+    bds_dequeue(queue);
+    assert(bds_queue_size(queue) == 1);
+
+    //print_bds_queue_contents(queue);
     bds_queue_destroy(queue);
     free(int1); free(int2); free(int3); 
 }
