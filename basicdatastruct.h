@@ -60,7 +60,7 @@ typedef struct bds_pqueue_t {
     size_t curr_size ;
 } bds_pqueue_t ; 
 
-const void * bds_hashtable_search(bds_hashtable_t *, const void *, size_t );
+const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
 
 /**
 

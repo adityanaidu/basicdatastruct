@@ -53,7 +53,7 @@ int bds_stack_push(bds_stack_t * bds_stack_handle, const void * val) {
     return 0;
 }
 
-int print_bds_stack_contents (bds_stack_t *bds_stack_handle) {
+int bds_stack_print(bds_stack_t *bds_stack_handle) {
     
     printf("Print stack contents\n");
     int idx = 0;

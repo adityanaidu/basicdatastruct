@@ -55,7 +55,7 @@ int bds_hashtable_insert(bds_hashtable_t * ht, const void * key,
     if (key == NULL)  { return -2; }
 
     size_t bucket = adler32(key, keylength) % (ht->numbuckets);
-    printf("Inserting key %d; in bucket %zu\n", *(int *) key, bucket);
+   // printf("Inserting key %d; in bucket %zu\n", *(int *) key, bucket);
     void * keycpy = calloc(1, keylength) ;
     if ( keycpy  == NULL )  { 
         printf("Unable to malloc keycpy\n");
@@ -96,7 +96,7 @@ int bds_hashtable_insert(bds_hashtable_t * ht, const void * key,
     return 0;
 }
 
-const void * bds_hashtable_search(bds_hashtable_t *ht, const void * key,
+const void * bds_hashtable_retrieve(bds_hashtable_t *ht, const void * key,
                    size_t keylength ) {
     if (ht == NULL)  { return NULL; }
     

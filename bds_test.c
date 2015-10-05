@@ -17,6 +17,7 @@ void teststack(void)  {
     int * int1 = malloc(intsize);
     *int1 = 10 ;
     assert ( bds_stack_push(stack, int1) == 0 );  
+    assert(bds_stack_size(stack) == 1);
 
     int * int2 = malloc(intsize);
     *int2 = 20 ;
@@ -25,11 +26,14 @@ void teststack(void)  {
     int * int3 = malloc(intsize);
     *int3 = 30 ;
     assert( bds_stack_push(stack, int3) == 0 );
+    
+    assert(bds_stack_size(stack) == 3);
+    //bds_stack_print(stack);
 
-    print_bds_stack_contents(stack);
+    int *intVal = (int *) bds_stack_pop(stack);
+    assert( *intVal == 30 ); 
 
-    void *intVal = bds_stack_pop(stack);
-    assert(intVal != NULL);  
+    assert(bds_stack_size(stack) == 2);
 
     destroy_stack(stack);
     
@@ -128,12 +132,12 @@ void testhashtable(void)   {
     *int3 = 13;
     assert(bds_hashtable_insert(ht, int3, intsize, int3) == 0);
     
-    bds_hashtable_print(ht);
+    //bds_hashtable_print(ht);
 
-    int retVal =  * (int *) bds_hashtable_search(ht, int1, intsize);
+    int retVal =  * (int *) bds_hashtable_retrieve(ht, int1, intsize);
     assert(retVal == 11);
 
-    retVal =  * (int *) bds_hashtable_search(ht, int2, intsize);
+    retVal =  * (int *) bds_hashtable_retrieve(ht, int2, intsize);
     assert(retVal == 12);
 
     assert( bds_hashtable_delete(ht, int3, intsize) == 0);
@@ -142,10 +146,10 @@ void testhashtable(void)   {
     
     assert( bds_hashtable_delete(ht, int1, intsize) == 0 );
                   
-    bds_hashtable_print(ht);
+    //bds_hashtable_print(ht);
     
     int notfound = 5;
-    assert (bds_hashtable_search(ht, &notfound, intsize) == NULL);
+    assert (bds_hashtable_retrieve(ht, &notfound, intsize) == NULL);
 
     bds_hashtable_destroy(ht);
     free(int1); free(int2); free(int3); 
@@ -160,31 +164,37 @@ void testpqueue(void)  {
     * pri1 = 'E' ;
     int rc = bds_pqueue_insert(pq, pri1, pri1) ; 
     assert (rc == 0 );
-
+    assert(bds_pqueue_size(pq) == 1);
+    assert(bds_pqueue_capacity(pq) == 10);
+    
     char * pri2 = malloc( sizeof(char ));
     * pri2 = 'B' ;
     rc = bds_pqueue_insert(pq, pri2, pri2) ; 
     assert (rc == 0 );
-
+    assert(bds_pqueue_capacity(pq) == 10);
+    
     int * pri3 = malloc( sizeof(char ));
     * pri3 = 'C' ;
     rc = bds_pqueue_insert(pq, pri3, pri3) ; 
+    assert(bds_pqueue_size(pq) == 3);
     assert (rc == 0 );
     
-    bds_pqueue_print(pq);
+    //bds_pqueue_print(pq);
     char rv ; 
     
     rv = * (char *) bds_pqueue_remove(pq) ; 
     assert ( rv == 'B' );
-    bds_pqueue_print(pq);
+    assert(bds_pqueue_size(pq) == 2);
+    // bds_pqueue_print(pq);
     
     rv = * (char *) bds_pqueue_remove(pq) ; 
     assert (rv == 'C' );
-    bds_pqueue_print(pq);
+    // bds_pqueue_print(pq);
     
     rv = * (char *) bds_pqueue_remove(pq) ; 
     assert (rv == 'E' );
-    bds_pqueue_print(pq);
+    // bds_pqueue_print(pq);
+    assert(bds_pqueue_size(pq) == 0);
 
     bds_pqueue_destroy(pq);
     free(pri1); free(pri2); free(pri3);
