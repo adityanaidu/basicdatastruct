@@ -59,30 +59,16 @@ int bds_linkedlist_insert(bds_linkedlist_t * ll, const void * value,
 
     a_node_t * node = calloc(1, sizeof(a_node_t));
 
-    if (node == NULL)   { return -1;}
+    if (node == NULL)  { return -1; }
 
-    node->next = NULL;
     node->value = value;
     node->valuelength = valuelength;
+    node->next = ll->next ;
     
-    if (ll->next == NULL )  {
-        ll->next = node ;
-        ll->size++ ;
-        return 0 ;
-    }
+    ll->next = node;
+    ll->size++ ;
 
-    a_node_t * current = ll->next; 
-
-    while ( true )  {
-       if ( current->next == NULL ) {
-           current->next = node ;
-           ll->size++ ;
-           return 0;
-       }
-       current = current->next ;
-    }
-
-    return -1 ;
+    return 0 ;
 }
 
 int bds_linkedlist_delete(bds_linkedlist_t * ll, const void * value,

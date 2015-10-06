@@ -65,6 +65,8 @@ void testlinkedlist(void)   {
     assert(bds_linkedlist_ispresent(ll, testint2, intsize) == false );
 
     assert(bds_linkedlist_delete(ll, int1, intsize ) == 0);  
+    assert(bds_linkedlist_delete(ll, int1, intsize ) == 0);  
+    assert(bds_linkedlist_ispresent(ll, int1, intsize ) == false);  
     
     int notpresent = 55 ;
     assert(bds_linkedlist_delete(ll, &notpresent, intsize ) == -2);  
