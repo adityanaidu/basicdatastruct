@@ -72,7 +72,7 @@ int bds_hashtable_delete(bds_hashtable_t * ht, const void *key, size_t keylen);
 
 \brief Insert \p key \p value pair into \p ht
 
-Memory for \p value has to be managed by caller. A copy of the \p key will be made and managed internally though.
+Memory for \p value has to be managed by caller. A copy of the \p key will be made and managed internally though. Takes O(1) time
 
 \return 0 if successfull, negative if otherwise
 */

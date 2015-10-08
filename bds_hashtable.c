@@ -51,48 +51,36 @@ bds_hashtable_t * bds_hashtable_create(size_t num_buckets)  {
 int bds_hashtable_insert(bds_hashtable_t * ht, const void * key, 
                size_t keylength, const void * value) {
     
-    if (ht == NULL)  { return -1; }
-    if (key == NULL)  { return -2; }
+    if (ht == NULL || key == NULL )  { return -1; }
 
     size_t bucket = adler32(key, keylength) % (ht->numbuckets);
-   // printf("Inserting key %d; in bucket %zu\n", *(int *) key, bucket);
+    // printf("Inserting key %d; in bucket %zu\n", *(int *) key, bucket);
     void * keycpy = calloc(1, keylength) ;
     if ( keycpy  == NULL )  { 
         printf("Unable to malloc keycpy\n");
         return -1 ;
     }
     
-    if ( memcpy(keycpy, key, keylength) == 0 )  {
-        free(keycpy);
+    if ( memcpy(keycpy, key, keylength) == NULL )  {
+        free(keycpy); keycpy = NULL;
         return -2 ;
     }
 
     hash_entry_t * ht_entry = malloc( sizeof(hash_entry_t ) );
 
-    if (ht_entry == NULL )  { 
+    if ( ht_entry == NULL )  { 
         printf("Unable to malloc hash_entry_t\n"); 
-        free(keycpy);
+        free(keycpy); keycpy = NULL;
         return -1 ;
     }
     
-    ht_entry->value = value;
-    ht_entry->next = NULL;
-    ht_entry->keylength = keylength;
     ht_entry->key = keycpy;
+    ht_entry->keylength = keylength;
+    ht_entry->value = value;
+    ht_entry->next = ht->table[bucket];
+
+    ht->table[bucket] = ht_entry;
     
-    if (ht->table[bucket] == NULL)  {
-        ht->table[bucket] = ht_entry;
-    } else {
-        
-        hash_entry_t * he = ht->table[bucket] ; 
-        
-        while ( he->next != NULL)  {
-            he = he->next;
-        }
-
-        he->next = ht_entry;
-    }
-
     return 0;
 }
 
