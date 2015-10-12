@@ -60,6 +60,19 @@ typedef struct bds_pqueue_t {
     size_t curr_size ;
 } bds_pqueue_t ; 
 
+
+typedef struct bds_bst_node_t {
+    void * value;
+    struct bds_bst_node_t * left;
+    struct bds_bst_node_t * right;
+} bds_bst_node_t ;
+
+typedef struct bds_bst_t {
+    bds_bst_node_t *root;
+    size_t valuelength;
+} bds_bst_t ;
+
+
 const void * bds_hashtable_retrieve(bds_hashtable_t *, const void *, size_t );
 
 /**
@@ -224,5 +237,10 @@ size_t bds_pqueue_size(bds_pqueue_t * pqueue);
 */
 size_t bds_pqueue_capacity(bds_pqueue_t * pqueue);
 
+bds_bst_t * bds_bst_create(size_t valuelength) ;
+
+int bds_bst_insert(bds_bst_t *bst, void * value) ;
+
+bool bds_bst_search(bds_bst_t * bst, void * value) ; 
 
 #endif  // BASICDATASTRUCT_H 

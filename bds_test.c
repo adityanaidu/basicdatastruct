@@ -5,6 +5,29 @@
 
 #include "basicdatastruct.h"
 
+void testbst(void)  {
+    printf("Testing bst\n");
+
+    bds_bst_t * bst = bds_bst_create(sizeof(int));
+
+    int * int1 = malloc(sizeof(int));
+    *int1 = 32;
+    bds_bst_insert(bst, int1);
+
+    int * int2 = malloc(sizeof(int));
+    *int2 = 33;
+    bds_bst_insert(bst, int2);
+    
+    int * int3 = malloc(sizeof(int));
+    *int3 = 30;
+    bds_bst_insert(bst, int3);
+    
+    assert( bds_bst_search( bst, int3) ) ; 
+
+    int * int4 = malloc(sizeof(int));
+    *int4 = 40;
+    assert( bds_bst_search( bst, int4) == false ) ; 
+}
 
 void teststack(void)  {
     printf("Testing stack\n");
@@ -217,5 +240,7 @@ int main(void)  {
 
     testlinkedlist();
     testhashtable();
+    testbst() ; 
+
     return 0;
 }
