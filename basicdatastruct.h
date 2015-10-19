@@ -243,4 +243,6 @@ int bds_bst_insert(bds_bst_t *bst, void * value) ;
 
 bool bds_bst_search(bds_bst_t * bst, void * value) ; 
 
+void bds_bst_destroy(bds_bst_t * bst) ; 
+
 #endif  // BASICDATASTRUCT_H 

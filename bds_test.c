@@ -27,6 +27,12 @@ void testbst(void)  {
     int * int4 = malloc(sizeof(int));
     *int4 = 40;
     assert( bds_bst_search( bst, int4) == false ) ; 
+    
+    assert( bds_bst_delete(bst, int4) == -3);
+
+    bds_bst_destroy(bst);
+
+    free(int1);free(int2);free(int3);free(int4);
 }
 
 void teststack(void)  {
