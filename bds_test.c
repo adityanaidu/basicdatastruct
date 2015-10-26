@@ -23,11 +23,11 @@ void testbst(void)  {
     bds_bst_insert(bst, int3);
     
     assert( bds_bst_search( bst, int3) ) ; 
+    assert( bds_bst_delete(bst, int3) == 0);
 
     int * int4 = malloc(sizeof(int));
     *int4 = 40;
     assert( bds_bst_search( bst, int4) == false ) ; 
-    
     assert( bds_bst_delete(bst, int4) == -3);
 
     bds_bst_destroy(bst);

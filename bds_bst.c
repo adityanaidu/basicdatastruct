@@ -104,13 +104,13 @@ bds_bst_node_t * search_node(bds_bst_node_t *tree,
         return tree;
     } else if ( compare < 0 )  {
         if ( ! tree->left )  {  return NULL;  }
-        searchrootnode = &tree;
+        *searchrootnode = tree;
         *leftright = false;
         return search_node(tree->left, value, vallen, searchrootnode, 
                     leftright);
     } else {
         if ( ! tree->right )  {  return NULL; }
-        searchrootnode = &tree;
+        *searchrootnode = tree;
         *leftright = true;
         return search_node(tree->right, value, vallen, searchrootnode,
                     leftright);
@@ -127,7 +127,7 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     }
     
     bds_bst_node_t *delnode = NULL;
-    bds_bst_node_t **searchroot = NULL;
+    bds_bst_node_t *searchroot = NULL;
     bool leftright;
     if ( memcmp(value, bst->root , bst->valuelength) == 0 )  {
         free(bst->root);
@@ -135,7 +135,7 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
         return 0;
     }  else {
         delnode = search_node(bst->root, value, bst->valuelength, 
-                     searchroot, &leftright);
+                     &searchroot, &leftright);
     }
     
     //didnt find the value to be deleted
@@ -145,25 +145,25 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     if (delnode->right == NULL  &&  delnode->left == NULL)  {
 
         if (leftright == false)  {
-            free((*searchroot)->left);
-            (*searchroot)->left = NULL;
+            free((searchroot)->left);
+            (searchroot)->left = NULL;
         } else  {
-            free((*searchroot)->right);
-            (*searchroot)->right = NULL;
+            free((searchroot)->right);
+            (searchroot)->right = NULL;
         }
         return 0;
     } else if ( delnode->right == NULL )    {  // only left subtree
         if ( leftright ) {
-            (*searchroot)->right = delnode->left ;   
+            (searchroot)->right = delnode->left ;   
         } else {
-            (*searchroot)->left = delnode->left ;   
+            (searchroot)->left = delnode->left ;   
         }
         return 0;
     } else if ( delnode->left == NULL )  {  // only right subtree
         if ( leftright ) {
-            (*searchroot)->right = delnode->right;
+            (searchroot)->right = delnode->right;
         } else {
-            (*searchroot)->left = delnode->right;
+            (searchroot)->left = delnode->right;
         }
         return 0;
     }
