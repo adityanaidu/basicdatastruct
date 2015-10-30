@@ -12,15 +12,16 @@ void testbst(void)  {
 
     int * int1 = malloc(sizeof(int));
     *int1 = 32;
-    bds_bst_insert(bst, int1);
+    assert( bds_bst_insert(bst, int1) == 0);
 
     int * int2 = malloc(sizeof(int));
     *int2 = 33;
-    bds_bst_insert(bst, int2);
+    assert( bds_bst_insert(bst, int2) == 0);
     
     int * int3 = malloc(sizeof(int));
     *int3 = 30;
-    bds_bst_insert(bst, int3);
+    assert( bds_bst_insert(bst, int3) == 0);
+    assert (bds_bst_insert(bst, int3) == -1);
     
     assert( bds_bst_search( bst, int3) ) ; 
     assert( bds_bst_delete(bst, int3) == 0);
@@ -29,6 +30,9 @@ void testbst(void)  {
     *int4 = 40;
     assert( bds_bst_search( bst, int4) == false ) ; 
     assert( bds_bst_delete(bst, int4) == -3);
+    assert( bds_bst_delete(bst, int4) == -3);
+
+    assert (bds_bst_insert(bst, int3) == 0);
 
     bds_bst_destroy(bst);
 

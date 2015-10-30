@@ -45,30 +45,49 @@ int bds_bst_insert(bds_bst_t *bst, void * value)   {
         return 0;
     }
 
-    node_insert(newnode, node, bst->valuelength);
+    int rc = node_insert(newnode, node, bst->valuelength);
 
-    return 0;
+    if (rc != 0)  {
+        free(newnode);   
+        return rc ;
+    } 
+
+     return 0;
 }
 
 int node_insert(bds_bst_node_t * newnode, bds_bst_node_t *tree, size_t vallen) {
     
-    if ( memcmp(newnode->value, tree->value, vallen )  <= 0 )  {
+    int cmp = memcmp(newnode->value, tree->value, vallen ) ; 
+    
+    if ( cmp == 0)  {
+         return -1; // value already present    
+    } else if ( cmp < 0 )  {
         if ( tree->left == NULL )  { 
             tree->left = newnode ;
             return 0;
         }  else {
-            node_insert(newnode, tree->left, vallen);
+            return node_insert(newnode, tree->left, vallen);
         }
     }  else {
         if (tree->right == NULL)  {
             tree->right = newnode;
             return 0;
         } else {
-            node_insert(newnode, tree->right, vallen);
+            return node_insert(newnode, tree->right, vallen);
         }
     }
 
     return 0;
+}
+
+void print_bst( bds_bst_t *bst )  {
+    if (bst == NULL)  {
+        return ;
+    }
+
+
+
+
 
 }
 
@@ -152,14 +171,16 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
             (searchroot)->right = NULL;
         }
         return 0;
-    } else if ( delnode->right == NULL )    {  // only left subtree
+    } else if ( delnode->right == NULL )    { 
+        // value to be deleted has only one subtree - left
         if ( leftright ) {
             (searchroot)->right = delnode->left ;   
         } else {
             (searchroot)->left = delnode->left ;   
         }
         return 0;
-    } else if ( delnode->left == NULL )  {  // only right subtree
+    } else if ( delnode->left == NULL )  { 
+        // value to be deleted has one only subtree - right   
         if ( leftright ) {
             (searchroot)->right = delnode->right;
         } else {
