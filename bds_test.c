@@ -215,7 +215,7 @@ void testpqueue(void)  {
     assert (rc == 0 );
     assert(bds_pqueue_capacity(pq) == 10);
     
-    int * pri3 = malloc( sizeof(char ));
+    char * pri3 = malloc( sizeof(char ));
     * pri3 = 'C' ;
     rc = bds_pqueue_insert(pq, pri3, pri3) ; 
     assert(bds_pqueue_size(pq) == 3);

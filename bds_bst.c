@@ -194,7 +194,10 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     bds_bst_node_t **secondlastnode = NULL;
     bds_bst_node_t *replacement = get_lowest_node(delnode->right, 
                                    secondlastnode);
-
+    
+    // replacement and secondlastnode will not be NULL since
+    // the node to be deleted is an internal non-root node
+    // with two subtrees
     replacement->left = delnode->left;
     (*secondlastnode)->left = replacement->right ;
     
