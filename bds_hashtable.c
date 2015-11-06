@@ -195,3 +195,25 @@ void bds_hashtable_destroy(bds_hashtable_t *ht)   {
     free(ht->table);
     free(ht);
 }
+
+int bds_hashtable_foreach(bds_hashtable_t *ht, 
+          void (*userfunc) (const void *key, size_t klen, 
+                            const void * val, void *), 
+          void *f_data) {
+    
+    if (ht == NULL)  { return -1 ; }
+    
+    size_t bindex = 0;
+    for (bindex = 0; bindex < ht->numbuckets; bindex++) {
+        hash_entry_t * he = ht->table[bindex];
+
+        if (he == NULL)  { continue; }
+
+        while ( he )   {
+            userfunc(he->key, he->keylength, he->value, f_data);
+            he = he->next;
+        }
+    }
+
+    return 0;
+}

@@ -120,3 +120,18 @@ bool bds_linkedlist_ispresent(bds_linkedlist_t * ll, const void * value,
     
     return false;
 }
+
+int bds_linkedlist_foreach(bds_linkedlist_t * ll, 
+     void (*userfunc) (const void *item, void *fdata) , void *f_data )  {
+
+    if ( (! ll) || (! ll->next) ) { return -1 ;}
+    
+    a_node_t * node = ll->next ;
+
+    do {
+        userfunc(node->value, f_data); 
+        node = node->next;
+    } while ( node ) ;
+
+    return 0;
+}

@@ -69,6 +69,27 @@ void teststack(void)  {
     free(int1); free(int2); free(int3) ;
 }
 
+void sumupll(const void * item, void *summup)  {
+    int * sum = (int *) summup;
+    int * itm = (int* ) item ;
+    (*sum)+=(*itm) ;
+}
+
+void sumupht(const void * key, size_t klen, const void * item, void *summup) {
+    sumupll(item, summup);
+}
+
+void multiplyll(const void * item, void *summup)  {
+    int * itm = (int *) item ;
+    int * sum = summup;
+    *sum = (*sum) * (*itm) ;
+}
+
+void multiplyht(const void * key, size_t klen, const void * item, 
+              void *summup){
+    multiplyll(item, summup);
+}
+
 void testlinkedlist(void)   {
 
     printf("Testing linkedlist\n");
@@ -89,6 +110,14 @@ void testlinkedlist(void)   {
     assert(bds_linkedlist_insert(ll, testint1, intsize ) == 0);
     assert(bds_linkedlist_ispresent(ll, testint1, intsize ) == true );
     
+    int all = 0;
+    assert( bds_linkedlist_foreach( ll, &sumupll, &all ) == 0 ) ;
+    assert (all == 80);
+    
+    all = 1;
+    assert( bds_linkedlist_foreach( ll, &multiplyll, &all ) == 0 ) ;
+    assert (all == 11250);
+
     int * testint2 = malloc(sizeof(int)) ;
     *testint2 = 51 ;
     assert(bds_linkedlist_ispresent(ll, testint2, intsize) == false );
@@ -170,7 +199,13 @@ void testhashtable(void)   {
     *int3 = 13;
     assert(bds_hashtable_insert(ht, int3, intsize, int3) == 0);
     
-    //bds_hashtable_print(ht);
+    int all = 0;
+    assert( bds_hashtable_foreach(ht, &sumupht, &all ) == 0 ) ;
+    assert (all == 58);
+    
+    all = 1;
+    assert( bds_hashtable_foreach(ht, &multiplyht, &all ) == 0 ) ;
+    assert (all == 207636);
 
     int retVal =  * (int *) bds_hashtable_retrieve(ht, int1, intsize);
     assert(retVal == 11);

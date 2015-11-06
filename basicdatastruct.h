@@ -100,6 +100,10 @@ free memory allocated for the hashtable infrastructure. Memory allocated by call
 */
 void bds_hashtable_destroy(bds_hashtable_t *ht); 
 
+int bds_hashtable_foreach(bds_hashtable_t *ht, 
+          void (*userfunc) (const void*key, size_t klen, 
+                            const void * val, void *), 
+          void *f_data); 
 /**
 
 \brief Creates a singly linked list
@@ -134,6 +138,8 @@ Takes O(n) time.
 
 bool bds_linkedlist_ispresent(bds_linkedlist_t *, const void *, size_t ) ; 
 
+int bds_linkedlist_foreach(bds_linkedlist_t * ll, 
+     void (*userfunc) ( const void *item, void *fdata) , void *f_data );
 
 bds_stack_t * bds_stack_create(void); 
 
