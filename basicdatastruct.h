@@ -10,6 +10,8 @@
 @file 
 
 This file contains all the public API of this library
+
+\author Aditya Naidu
 */
 
 typedef struct a_node_t {
@@ -100,6 +102,17 @@ free memory allocated for the hashtable infrastructure. Memory allocated by call
 */
 void bds_hashtable_destroy(bds_hashtable_t *ht); 
 
+/**
+\brief This is an iterator for bds_hashtable_t container
+
+The function \p userfunc is called on each entry in \p ht. The first three 
+parameters to \p userfunc are an entry in \ht - key, length of the key and the
+corresponding value. The last parameter to \p userfunc is a user supplied 
+- actually \p f_data - variable which can be obviously manipulated by the caller
+in userfunc. After the iteration is done, the output will be in \p f_data.
+
+See bds_test.c for example usage
+*/
 int bds_hashtable_foreach(bds_hashtable_t *ht, 
           void (*userfunc) (const void*key, size_t klen, 
                             const void * val, void *), 
@@ -138,6 +151,18 @@ Takes O(n) time.
 
 bool bds_linkedlist_ispresent(bds_linkedlist_t *, const void *, size_t ) ; 
 
+/**
+\brief This is an iterator for bds_linkedlist_t container.
+
+The function pointer \p userfunc will be called for each item in \p ll 
+
+The first parameter to \p userfunc is an item in \p ll. The second parameter
+is a caller specified parameter - actually \p f_data - which can be manupulated
+by the caller in \p userfunc . After the iteration, final 
+result will thus be available in \p f_data
+
+See bds_test.c for example usage
+*/
 int bds_linkedlist_foreach(bds_linkedlist_t * ll, 
      void (*userfunc) ( const void *item, void *fdata) , void *f_data );
 
