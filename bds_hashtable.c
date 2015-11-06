@@ -41,6 +41,7 @@ bds_hashtable_t * bds_hashtable_create(size_t num_buckets)  {
     
     if (table == NULL)  {
         printf("Unable to allocate table\n");
+        free(ht);
         return NULL ;
     }
 

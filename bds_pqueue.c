@@ -89,6 +89,7 @@ bds_pqueue_t * bds_pqueue_create(size_t capacity, size_t prioritylength)  {
     
     if (pqueue_array == NULL)  {
         printf("Unable to allocate pqueue_array\n");
+        free(pqueue);
         return NULL ;
     }
 

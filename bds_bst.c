@@ -45,30 +45,49 @@ int bds_bst_insert(bds_bst_t *bst, void * value)   {
         return 0;
     }
 
-    node_insert(newnode, node, bst->valuelength);
+    int rc = node_insert(newnode, node, bst->valuelength);
 
-    return 0;
+    if (rc != 0)  {
+        free(newnode);   
+        return rc ;
+    } 
+
+     return 0;
 }
 
 int node_insert(bds_bst_node_t * newnode, bds_bst_node_t *tree, size_t vallen) {
     
-    if ( memcmp(newnode->value, tree->value, vallen )  <= 0 )  {
+    int cmp = memcmp(newnode->value, tree->value, vallen ) ; 
+    
+    if ( cmp == 0)  {
+         return -1; // value already present    
+    } else if ( cmp < 0 )  {
         if ( tree->left == NULL )  { 
             tree->left = newnode ;
             return 0;
         }  else {
-            node_insert(newnode, tree->left, vallen);
+            return node_insert(newnode, tree->left, vallen);
         }
     }  else {
         if (tree->right == NULL)  {
             tree->right = newnode;
             return 0;
         } else {
-            node_insert(newnode, tree->right, vallen);
+            return node_insert(newnode, tree->right, vallen);
         }
     }
 
     return 0;
+}
+
+void print_bst( bds_bst_t *bst )  {
+    if (bst == NULL)  {
+        return ;
+    }
+
+
+
+
 
 }
 
@@ -104,13 +123,13 @@ bds_bst_node_t * search_node(bds_bst_node_t *tree,
         return tree;
     } else if ( compare < 0 )  {
         if ( ! tree->left )  {  return NULL;  }
-        searchrootnode = &tree;
+        *searchrootnode = tree;
         *leftright = false;
         return search_node(tree->left, value, vallen, searchrootnode, 
                     leftright);
     } else {
         if ( ! tree->right )  {  return NULL; }
-        searchrootnode = &tree;
+        *searchrootnode = tree;
         *leftright = true;
         return search_node(tree->right, value, vallen, searchrootnode,
                     leftright);
@@ -127,7 +146,7 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     }
     
     bds_bst_node_t *delnode = NULL;
-    bds_bst_node_t **searchroot = NULL;
+    bds_bst_node_t *searchroot = NULL;
     bool leftright;
     if ( memcmp(value, bst->root , bst->valuelength) == 0 )  {
         free(bst->root);
@@ -135,7 +154,7 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
         return 0;
     }  else {
         delnode = search_node(bst->root, value, bst->valuelength, 
-                     searchroot, &leftright);
+                     &searchroot, &leftright);
     }
     
     //didnt find the value to be deleted
@@ -145,25 +164,27 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     if (delnode->right == NULL  &&  delnode->left == NULL)  {
 
         if (leftright == false)  {
-            free((*searchroot)->left);
-            (*searchroot)->left = NULL;
+            free((searchroot)->left);
+            (searchroot)->left = NULL;
         } else  {
-            free((*searchroot)->right);
-            (*searchroot)->right = NULL;
+            free((searchroot)->right);
+            (searchroot)->right = NULL;
         }
         return 0;
-    } else if ( delnode->right == NULL )    {  // only left subtree
+    } else if ( delnode->right == NULL )    { 
+        // value to be deleted has only one subtree - left
         if ( leftright ) {
-            (*searchroot)->right = delnode->left ;   
+            (searchroot)->right = delnode->left ;   
         } else {
-            (*searchroot)->left = delnode->left ;   
+            (searchroot)->left = delnode->left ;   
         }
         return 0;
-    } else if ( delnode->left == NULL )  {  // only right subtree
+    } else if ( delnode->left == NULL )  { 
+        // value to be deleted has one only subtree - right   
         if ( leftright ) {
-            (*searchroot)->right = delnode->right;
+            (searchroot)->right = delnode->right;
         } else {
-            (*searchroot)->left = delnode->right;
+            (searchroot)->left = delnode->right;
         }
         return 0;
     }
@@ -173,7 +194,10 @@ int bds_bst_delete(bds_bst_t *bst, void * value)  {
     bds_bst_node_t **secondlastnode = NULL;
     bds_bst_node_t *replacement = get_lowest_node(delnode->right, 
                                    secondlastnode);
-
+    
+    // replacement and secondlastnode will not be NULL since
+    // the node to be deleted is an internal non-root node
+    // with two subtrees
     replacement->left = delnode->left;
     (*secondlastnode)->left = replacement->right ;
     
