@@ -1,6 +1,6 @@
 
 CC=gcc
-CFLAGS=-I. -Wall -g -std=c99 -pedantic
+CFLAGS=-I. -Wall -Wextra -g -std=c99 -pedantic
 DEPS=basicdatastruct.h
 OBJ=bds_queue.o bds_stack.o bds_hashtable.o bds_linkedlist.o bds_pqueue.o bds_bst.o
 BDSLIB=libbasicdatastruct.a
