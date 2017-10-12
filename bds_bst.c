@@ -21,7 +21,7 @@ bds_bst_node_t * get_lowest_node(bds_bst_node_t * tree, bds_bst_node_t **slnode)
 bds_bst_t * bds_bst_create(size_t valuelength)  {
     bds_bst_t *bst = NULL;
 
-    bst = malloc( sizeof(bds_bst_t));
+    bst = malloc( sizeof(*bst));
     bst->valuelength= valuelength;
     bst->root = NULL;
     return bst;
@@ -35,7 +35,7 @@ int bds_bst_insert(bds_bst_t *bst, void * value)   {
 
     bds_bst_node_t * node = bst->root ; 
     
-    bds_bst_node_t *newnode = malloc( sizeof(bds_bst_node_t) );
+    bds_bst_node_t *newnode = malloc( sizeof(*newnode) );
     newnode->value = value;
     newnode->left = NULL;
     newnode->right = NULL;

@@ -9,7 +9,7 @@
 
 bds_linkedlist_t * create_linkedlist()  {
     
-    bds_linkedlist_t * ll = calloc(1, sizeof(bds_linkedlist_t));
+    bds_linkedlist_t * ll = calloc(1, sizeof(*ll));
 
     if (ll == NULL)  {
         printf("Unable to malloc for linkedlist\n");
@@ -57,7 +57,7 @@ int bds_linkedlist_insert(bds_linkedlist_t * ll, const void * value,
 
    if (ll == NULL)  { return -1 ; }
 
-    a_node_t * node = calloc(1, sizeof(a_node_t));
+    a_node_t * node = calloc(1, sizeof(*node));
 
     if (node == NULL)  { return -1; }
 

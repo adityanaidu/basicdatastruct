@@ -74,7 +74,7 @@ int percolatedown(bds_pqueue_t * pqueue, size_t nodeindex) {
 bds_pqueue_t * bds_pqueue_create(size_t capacity, size_t prioritylength)  {
     
     bds_pqueue_t * pqueue = NULL;
-    pqueue = malloc(sizeof(bds_pqueue_t));
+    pqueue = malloc(sizeof(*pqueue));
 
     if (pqueue == NULL)  {
         printf("Unable to malloc\n");
@@ -85,7 +85,7 @@ bds_pqueue_t * bds_pqueue_create(size_t capacity, size_t prioritylength)  {
     pqueue->curr_size = 0 ;
     pqueue->prioritylength = prioritylength ;
     bds_pqueue_node_t ** pqueue_array = 
-                                 calloc(capacity, sizeof(bds_pqueue_node_t *));
+                                 calloc(capacity, sizeof(*pqueue_array));
     
     if (pqueue_array == NULL)  {
         printf("Unable to allocate pqueue_array\n");
@@ -143,7 +143,7 @@ int bds_pqueue_insert(bds_pqueue_t *pqueue, void * priority, void * value)  {
         return -1 ;
     }
 
-    bds_pqueue_node_t * pnode = malloc(sizeof(bds_pqueue_node_t));
+    bds_pqueue_node_t * pnode = malloc(sizeof(*pnode));
     
     if (pnode == NULL)   { return -1 ; }
 

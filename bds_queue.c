@@ -7,7 +7,7 @@
 
 bds_queue_t * bds_queue_create() {
     bds_queue_t * bds_queue_handle = NULL ;
-    bds_queue_handle = malloc( sizeof(bds_queue_t ) ); 
+    bds_queue_handle = malloc( sizeof( *bds_queue_handle ) ); 
 
     if ( bds_queue_handle == NULL ) {
         printf("%s: create_handle unable to allocate memory\n", __FILE__);   
@@ -44,7 +44,7 @@ int bds_enqueue(bds_queue_t * queue, const void * val) {
     
     if (queue == NULL) { return -1; }
     
-    a_node_t * new_element = malloc(sizeof(a_node_t ) );
+    a_node_t * new_element = malloc(sizeof( *new_element ) );
     if ( new_element == NULL ) { return -1 ;  }
     new_element->value = val ;
     new_element->next = NULL ;

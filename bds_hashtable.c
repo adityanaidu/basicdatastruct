@@ -29,7 +29,7 @@ size_t adler32(const void *buf, size_t buflength)  {
 bds_hashtable_t * bds_hashtable_create(size_t num_buckets)  {
     
     bds_hashtable_t * ht = NULL;
-    ht = calloc(1, sizeof(bds_hashtable_t));
+    ht = calloc(1, sizeof(*ht));
 
     if (ht == NULL)  {
         printf("Unable to malloc\n");
@@ -67,7 +67,7 @@ int bds_hashtable_insert(bds_hashtable_t * ht, const void * key,
         return -2 ;
     }
 
-    hash_entry_t * ht_entry = malloc( sizeof(hash_entry_t ) );
+    hash_entry_t * ht_entry = malloc( sizeof(*ht_entry) );
 
     if ( ht_entry == NULL )  { 
         printf("Unable to malloc hash_entry_t\n"); 

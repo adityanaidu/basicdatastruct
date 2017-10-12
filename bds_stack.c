@@ -5,7 +5,7 @@
 
 bds_stack_t * bds_stack_create() {
     bds_stack_t * bds_stack_handle = NULL ;
-    bds_stack_handle = malloc( sizeof(bds_stack_t ) ); 
+    bds_stack_handle = malloc( sizeof(*bds_stack_handle ) ); 
 
     if ( bds_stack_handle == NULL ) {
         printf("%s: create_handle unable to allocate memory\n", __FILE__);   
@@ -43,7 +43,7 @@ int bds_stack_push(bds_stack_t * bds_stack_handle, const void * val) {
     
     a_node_t * old_top = bds_stack_handle->top ;
 
-    a_node_t * new_top = malloc(sizeof(a_node_t ) );
+    a_node_t * new_top = malloc(sizeof(*new_top ) );
     if ( new_top == NULL ) { return -1 ;  }
     new_top->value = (void *) val ;
     bds_stack_handle->top = new_top ;
