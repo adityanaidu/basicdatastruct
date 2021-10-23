@@ -6,3 +6,4 @@ html
 latex
 Doxygen
 bds_test
+*.pyc
